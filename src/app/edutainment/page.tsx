@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import SectionWrapper from '@/components/ui/SectionWrapper';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
+import { submitForm } from '@/lib/formSubmit';
 
 const products = [
   {
@@ -216,6 +217,51 @@ function TestimonialsSlider({ testimonials }: { testimonials: { quote: string; n
         </div>
       </div>
     </section>
+  );
+}
+
+function WaitlistForm() {
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setStatus('loading');
+    try {
+      await submitForm('waitlist', { email });
+      setStatus('success');
+      setEmail('');
+      setTimeout(() => setStatus('idle'), 4000);
+    } catch {
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 3000);
+    }
+  };
+
+  if (status === 'success') {
+    return (
+      <div className="flex items-center justify-center gap-2 py-3 text-emerald-400 text-sm font-semibold">
+        <CheckCircle2 className="w-4 h-4" /> You're on the waitlist!
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Enter your email address"
+        required
+        className="flex-1 px-4 py-3.5 rounded-xl border-2 border-white/[0.06] bg-white/[0.06] text-white placeholder-white/30 focus:outline-none focus:border-brand-400/60 transition-all text-[14px]"
+      />
+      <button type="submit" disabled={status === 'loading'}
+        className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-brand-500 to-purple-600 text-white font-bold text-[14px] flex items-center justify-center gap-2 hover:opacity-90 transition-opacity whitespace-nowrap shadow-lg disabled:opacity-60">
+        {status === 'loading' ? 'Joining...' : <>Join Waitlist <Zap className="w-4 h-4" /></>}
+      </button>
+    </form>
   );
 }
 
@@ -482,18 +528,7 @@ export default function EdutainmentPage() {
             <p className="text-white/40 mb-8 text-[15px] leading-relaxed">
               Join 3,200+ students, parents, and schools already on the waitlist for the world&apos;s most exciting educational gaming platform.
             </p>
-            <form onSubmit={(e) => e.preventDefault()}
-              className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email address"
-                className="flex-1 px-4 py-3.5 rounded-xl border-2 border-white/[0.06] bg-white/[0.06] text-white placeholder-white/30 focus:outline-none focus:border-brand-400/60 transition-all text-[14px]"
-              />
-              <button type="submit"
-                className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-brand-500 to-purple-600 text-white font-bold text-[14px] flex items-center justify-center gap-2 hover:opacity-90 transition-opacity whitespace-nowrap shadow-lg">
-                Join Waitlist <Zap className="w-4 h-4" />
-              </button>
-            </form>
+            <WaitlistForm />
           </SectionWrapper>
         </div>
       </section>

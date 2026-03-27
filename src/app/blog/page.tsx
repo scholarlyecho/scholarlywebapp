@@ -7,6 +7,7 @@ import {
   Mic2, Brain, Globe, Sparkles, Search, Users
 } from 'lucide-react';
 import SectionWrapper from '@/components/ui/SectionWrapper';
+import NewsletterForm from '@/components/NewsletterForm';
 
 const featured = {
   tag: 'AI Education',
@@ -207,14 +208,7 @@ export default function BlogPage() {
             <p className="text-white/40 text-[14px] sm:text-[15px] mb-7 leading-relaxed">
               Get our best articles, research spotlights, and event announcements — weekly, no spam.
             </p>
-            <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row gap-3">
-              <input type="email" placeholder="your@email.com"
-                className="flex-1 px-4 py-3.5 rounded-xl bg-white/[0.06] border border-white/[0.08] text-white placeholder-white/30 focus:outline-none focus:border-brand-400/60 text-[14px] transition-all" />
-              <button type="submit"
-                className="px-6 py-3.5 rounded-xl bg-white text-brand-700 font-bold text-[14px] hover:bg-white/90 transition-colors whitespace-nowrap shadow-lg">
-                Subscribe
-              </button>
-            </form>
+            <NewsletterForm variant="dark" />
           </SectionWrapper>
         </div>
       </section>

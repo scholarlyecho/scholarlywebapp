@@ -5,8 +5,9 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import {
   Twitter, Instagram, Youtube, Linkedin, Facebook,
-  Mail, MapPin, ArrowRight, Heart, Globe, Brain, BookOpen
+  Mail, MapPin, Heart, Globe, Brain, BookOpen
 } from 'lucide-react';
+import NewsletterForm from '@/components/NewsletterForm';
 
 const footerLinks = {
   Learn: [
@@ -94,19 +95,9 @@ export default function Footer() {
                 Programs, scholarships, research spotlights, and opportunities — delivered to your inbox weekly.
               </p>
             </div>
-            <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row w-full md:w-auto gap-2.5">
-              <input
-                type="email"
-                placeholder="your@email.com"
-                className="w-full sm:w-64 px-4 py-3 rounded-xl bg-white/12 border border-white/20 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/40 backdrop-blur-sm text-sm transition-all"
-              />
-              <button
-                type="submit"
-                className="px-5 py-3 rounded-xl bg-white font-semibold text-brand-700 hover:bg-slate-50 transition-colors flex items-center justify-center gap-2 whitespace-nowrap text-sm shadow-lg"
-              >
-                Subscribe <ArrowRight className="w-4 h-4" />
-              </button>
-            </form>
+            <div className="w-full md:w-auto">
+              <NewsletterForm variant="light" />
+            </div>
           </div>
         </div>
 

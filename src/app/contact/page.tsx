@@ -9,6 +9,7 @@ import {
   Globe, Brain, Clock, Users, Building2, FlaskConical
 } from 'lucide-react';
 import SectionWrapper from '@/components/ui/SectionWrapper';
+import { submitForm } from '@/lib/formSubmit';
 
 const inquiryTypes = [
   { id: 'enrollment', label: 'Program Enrollment', icon: CheckCircle2, desc: 'Enroll a learner or get a free assessment' },
@@ -27,6 +28,22 @@ const offices = [
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
   const [selectedType, setSelectedType] = useState('enrollment');
+  const [formData, setFormData] = useState({ name: '', email: '', country: '', role: 'Parent / Guardian', message: '' });
+  const [sending, setSending] = useState(false);
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSending(true);
+    try {
+      await submitForm('contact', { ...formData, subject: selectedType });
+      setSubmitted(true);
+      setFormData({ name: '', email: '', country: '', role: 'Parent / Guardian', message: '' });
+    } catch {
+      alert('Something went wrong. Please try again.');
+    } finally {
+      setSending(false);
+    }
+  };
 
   return (
     <div className="overflow-hidden">
@@ -171,7 +188,7 @@ export default function ContactPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}
+                  onSubmit={handleContactSubmit}
                   className="space-y-6"
                 >
                   {/* Inquiry Type */}
@@ -201,12 +218,14 @@ export default function ContactPage() {
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-[13px] font-bold text-slate-700 mb-1.5">Full Name *</label>
-                      <input required type="text" placeholder="Your full name"
+                      <input required type="text" placeholder="Your full name" value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         className="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-brand-400 transition-colors text-slate-800 placeholder:text-slate-300 text-[14px]" />
                     </div>
                     <div>
                       <label className="block text-[13px] font-bold text-slate-700 mb-1.5">Email *</label>
-                      <input required type="email" placeholder="your@email.com"
+                      <input required type="email" placeholder="your@email.com" value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         className="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-brand-400 transition-colors text-slate-800 placeholder:text-slate-300 text-[14px]" />
                     </div>
                   </div>
@@ -215,12 +234,14 @@ export default function ContactPage() {
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-[13px] font-bold text-slate-700 mb-1.5">Country</label>
-                      <input type="text" placeholder="e.g. United States, Nigeria, Kenya"
+                      <input type="text" placeholder="e.g. United States, Nigeria, Kenya" value={formData.country}
+                        onChange={(e) => setFormData({ ...formData, country: e.target.value })}
                         className="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-brand-400 transition-colors text-slate-800 placeholder:text-slate-300 text-[14px]" />
                     </div>
                     <div>
                       <label className="block text-[13px] font-bold text-slate-700 mb-1.5">You are a...</label>
-                      <select className="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-brand-400 transition-colors text-slate-700 text-[14px] bg-white appearance-none cursor-pointer">
+                      <select value={formData.role} onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                        className="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-brand-400 transition-colors text-slate-700 text-[14px] bg-white appearance-none cursor-pointer">
                         <option>Parent / Guardian</option>
                         <option>Student (self-enrolling)</option>
                         <option>Teacher / Educator</option>
@@ -236,12 +257,13 @@ export default function ContactPage() {
                   <div>
                     <label className="block text-[13px] font-bold text-slate-700 mb-1.5">Message *</label>
                     <textarea required rows={5} placeholder="Tell us what you need, and we'll find the best path forward..."
+                      value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       className="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-brand-400 transition-colors text-slate-800 placeholder:text-slate-300 resize-none text-[14px]" />
                   </div>
 
-                  <button type="submit"
-                    className="w-full btn-primary justify-center py-4 text-[15px] font-bold">
-                    Send Message <Send className="w-5 h-5" />
+                  <button type="submit" disabled={sending}
+                    className="w-full btn-primary justify-center py-4 text-[15px] font-bold disabled:opacity-60">
+                    {sending ? 'Sending...' : <>Send Message <Send className="w-5 h-5" /></>}
                   </button>
 
                   <p className="text-[11px] text-slate-400 text-center">

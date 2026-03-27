@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Menu, X, ChevronDown, BookOpen, Mic2, Gamepad2,
   Brain, Trophy, FlaskConical, Globe,
-  Sparkles, ArrowRight, TrendingUp
+  Sparkles, ArrowRight, TrendingUp, Lock
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -294,13 +294,14 @@ export default function Navbar() {
           {/* ── CTA Area ── */}
           <div className="flex items-center gap-2">
             <Link
-              href="/contact"
+              href="/admin/login"
               className={cn(
-                'hidden lg:inline-flex items-center text-[13px] font-medium px-3 py-2 rounded-lg transition-all duration-200',
+                'hidden lg:inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-lg transition-all duration-200',
                 scrolled ? 'text-slate-500 hover:text-slate-800 hover:bg-slate-100' : 'text-white/65 hover:text-white hover:bg-white/10'
               )}
             >
-              Sign In
+              <Lock className="w-3.5 h-3.5" />
+              Admin
             </Link>
 
             <Link
@@ -312,7 +313,7 @@ export default function Navbar() {
                   : 'bg-white/[0.08] backdrop-blur-md border border-white/15 text-white hover:bg-white/[0.14]'
               )}
             >
-              Enroll Free
+              Enroll
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-200" />
             </Link>
 
@@ -450,7 +451,7 @@ export default function Navbar() {
                 >
                   <Link href="/learning-hub" onClick={() => setMobileOpen(false)}
                     className="btn-primary justify-center text-[14px] py-3.5 group">
-                    Enroll Free <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    Enroll <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
                   <Link href="/contact" onClick={() => setMobileOpen(false)}
                     className="btn-secondary justify-center text-[14px] py-3.5">

@@ -1,9 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import PageTransition from '@/components/PageTransition';
-import ScrollToTop from '@/components/ScrollToTop';
+import LayoutShell from '@/components/LayoutShell';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -46,12 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="min-h-screen flex flex-col antialiased">
-        <Navbar />
-        <main className="flex-1">
-          <PageTransition>{children}</PageTransition>
-        </main>
-        <Footer />
-        <ScrollToTop />
+        <LayoutShell>{children}</LayoutShell>
       </body>
     </html>
   );
