@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Menu, X, ChevronDown, BookOpen, Mic2, Gamepad2,
-  Code2, Brain, Trophy, FlaskConical, Globe,
+  Brain, Trophy, FlaskConical, Globe,
   Sparkles, ArrowRight, TrendingUp
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -73,15 +74,15 @@ function MegaMenu({ link, onClose }: { link: NavLink; onClose: () => void }) {
   if (!link.sections) return null;
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12, scale: 0.97 }}
+      initial={{ opacity: 0, y: 8, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 12, scale: 0.97 }}
-      transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+      exit={{ opacity: 0, y: 8, scale: 0.98 }}
+      transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
       className="absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-white/95 backdrop-blur-xl rounded-2xl shadow-[0_20px_60px_-10px_rgba(0,0,0,0.15),0_8px_24px_-8px_rgba(110,66,255,0.08)] border border-slate-100/60 overflow-hidden"
       style={{ width: link.sections.length > 1 ? '560px' : '320px' }}
     >
       {/* Top accent */}
-      <div className="h-0.5 w-full" style={{ background: 'linear-gradient(90deg, #6e42ff, #a855f7, #ec4899)' }} />
+      <div className="h-[2px] w-full" style={{ background: 'linear-gradient(90deg, #6e42ff, #a855f7, #ec4899)' }} />
 
       <div className={cn('p-5 grid gap-5', link.sections.length > 1 ? 'grid-cols-2' : 'grid-cols-1')}>
         {link.sections.map((section) => (
@@ -89,26 +90,31 @@ function MegaMenu({ link, onClose }: { link: NavLink; onClose: () => void }) {
             <div className="text-[10px] font-bold uppercase tracking-[0.12em] text-slate-400 mb-3 px-2">
               {section.heading}
             </div>
-            <div className="space-y-1">
-              {section.items.map((item) => {
+            <div className="space-y-0.5">
+              {section.items.map((item, i) => {
                 const Icon = item.icon;
                 return (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    onClick={onClose}
-                    className="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 transition-all duration-150 group"
-                  >
-                    <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5', item.color)}>
-                      <Icon className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="text-sm font-semibold text-slate-800 group-hover:text-brand-600 transition-colors leading-tight">
-                        {item.label}
+                  <motion.div key={item.label}
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.04, duration: 0.25 }}>
+                    <Link
+                      href={item.href}
+                      onClick={onClose}
+                      className="flex items-start gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-50 transition-all duration-200 group"
+                    >
+                      <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 transition-transform duration-300 group-hover:scale-110', item.color)}>
+                        <Icon className="w-4 h-4" />
                       </div>
-                      <div className="text-xs text-slate-400 leading-snug mt-0.5">{item.desc}</div>
-                    </div>
-                  </Link>
+                      <div>
+                        <div className="text-sm font-semibold text-slate-800 group-hover:text-brand-600 transition-colors leading-tight">
+                          {item.label}
+                        </div>
+                        <div className="text-xs text-slate-400 leading-snug mt-0.5">{item.desc}</div>
+                      </div>
+                      <ArrowRight className="w-3.5 h-3.5 text-slate-300 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 mt-1 ml-auto flex-shrink-0" />
+                    </Link>
+                  </motion.div>
                 );
               })}
             </div>
@@ -134,9 +140,11 @@ function MegaMenu({ link, onClose }: { link: NavLink; onClose: () => void }) {
 }
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -145,12 +153,29 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileOpen(false);
+    setMobileExpanded(null);
+  }, [pathname]);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileOpen]);
+
   const handleEnter = (label: string) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     setActiveMenu(label);
   };
   const handleLeave = () => {
-    timeoutRef.current = setTimeout(() => setActiveMenu(null), 120);
+    timeoutRef.current = setTimeout(() => setActiveMenu(null), 150);
+  };
+
+  const isActivePath = (href: string) => {
+    if (href === '/') return pathname === '/';
+    return pathname.startsWith(href);
   };
 
   return (
@@ -215,6 +240,7 @@ export default function Navbar() {
             {navLinks.map((link) => {
               const hasMega = link.mega && link.sections;
               const isActive = activeMenu === link.label;
+              const isCurrentPage = isActivePath(link.href);
               return (
                 <div
                   key={link.label}
@@ -225,19 +251,34 @@ export default function Navbar() {
                   <Link
                     href={link.href}
                     className={cn(
-                      'relative flex items-center gap-1 px-4 py-2 text-[13.5px] font-medium tracking-[-0.01em] transition-colors duration-200 group',
-                      scrolled ? 'text-slate-600 hover:text-slate-900' : 'text-white/75 hover:text-white'
+                      'relative flex items-center gap-1 px-4 py-2 text-[13.5px] font-medium tracking-[-0.01em] transition-all duration-200 group',
+                      scrolled
+                        ? isCurrentPage ? 'text-brand-600' : 'text-slate-600 hover:text-slate-900'
+                        : isCurrentPage ? 'text-white' : 'text-white/75 hover:text-white'
                     )}
                   >
                     {link.label}
                     {hasMega && (
-                      <ChevronDown className={cn('w-3 h-3 transition-transform duration-200 opacity-60', isActive ? 'rotate-180' : '')} />
+                      <ChevronDown className={cn('w-3 h-3 transition-transform duration-300 opacity-60', isActive ? 'rotate-180' : '')} />
                     )}
-                    {/* Underline hover effect */}
-                    <span className={cn(
-                      'absolute bottom-0 left-4 right-4 h-[1.5px] rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-250 origin-left',
-                      scrolled ? 'bg-brand-500' : 'bg-white'
-                    )} />
+                    {/* Active page indicator */}
+                    {isCurrentPage && (
+                      <motion.span
+                        layoutId="nav-active"
+                        className={cn(
+                          'absolute bottom-0 left-4 right-4 h-[2px] rounded-full',
+                          scrolled ? 'bg-brand-500' : 'bg-white'
+                        )}
+                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      />
+                    )}
+                    {/* Hover underline (only if not active) */}
+                    {!isCurrentPage && (
+                      <span className={cn(
+                        'absolute bottom-0 left-4 right-4 h-[1.5px] rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left',
+                        scrolled ? 'bg-brand-500/40' : 'bg-white/50'
+                      )} />
+                    )}
                   </Link>
 
                   <AnimatePresence>
@@ -265,19 +306,20 @@ export default function Navbar() {
             <Link
               href="/learning-hub"
               className={cn(
-                'hidden lg:inline-flex items-center gap-1.5 text-[13px] font-semibold px-5 py-2.5 rounded-xl transition-all duration-250',
+                'hidden lg:inline-flex items-center gap-1.5 text-[13px] font-semibold px-5 py-2.5 rounded-xl transition-all duration-300 group',
                 scrolled
                   ? 'gradient-bg text-white shadow-[0_4px_16px_rgba(110,66,255,0.3)] hover:shadow-[0_8px_24px_rgba(110,66,255,0.4)] hover:-translate-y-0.5'
                   : 'bg-white/[0.08] backdrop-blur-md border border-white/15 text-white hover:bg-white/[0.14]'
               )}
             >
               Enroll Free
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-200" />
             </Link>
 
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className={cn(
-                'lg:hidden w-9 h-9 flex items-center justify-center rounded-lg transition-colors',
+                'lg:hidden w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-200',
                 scrolled ? 'text-slate-700 hover:bg-slate-100' : 'text-white hover:bg-white/10'
               )}
               aria-label="Toggle menu"
@@ -301,60 +343,123 @@ export default function Navbar() {
       {/* ── Mobile Menu ── */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:hidden overflow-hidden bg-white border-t border-slate-100 shadow-2xl"
-          >
-            <div className="max-w-7xl mx-auto px-4 py-4 space-y-0.5">
-              {navLinks.map((link) => (
-                <div key={link.label}>
-                  <Link
-                    href={link.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-2 px-4 py-3.5 rounded-xl text-slate-800 font-semibold text-[15px] hover:bg-brand-50 hover:text-brand-600 transition-colors active:bg-brand-100"
-                  >
-                    {link.label}
-                  </Link>
-                  {link.sections && (
-                    <div className="ml-3 mt-0.5 space-y-0.5 mb-1 pb-1 border-b border-slate-50">
-                      {link.sections.flatMap((s) => s.items).map((item) => {
-                        const Icon = item.icon;
-                        return (
-                          <Link
-                            key={item.label}
-                            href={item.href}
-                            onClick={() => setMobileOpen(false)}
-                            className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-500 text-[13px] hover:bg-slate-50 hover:text-brand-600 transition-colors active:bg-slate-100"
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="lg:hidden fixed inset-0 top-16 bg-black/20 backdrop-blur-sm z-40"
+              onClick={() => setMobileOpen(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="lg:hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-slate-100/60 shadow-[0_20px_60px_rgba(0,0,0,0.1)] z-50 max-h-[calc(100vh-4rem)] overflow-y-auto"
+            >
+              <div className="max-w-7xl mx-auto px-4 py-4 space-y-1">
+                {navLinks.map((link, i) => {
+                  const hasSections = link.sections && link.sections.length > 0;
+                  const isExpanded = mobileExpanded === link.label;
+                  const isCurrentPage = isActivePath(link.href);
+                  return (
+                    <motion.div key={link.label}
+                      initial={{ opacity: 0, x: -16 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.04, duration: 0.3 }}>
+                      <div className="flex items-center">
+                        <Link
+                          href={link.href}
+                          onClick={() => setMobileOpen(false)}
+                          className={cn(
+                            'flex-1 flex items-center gap-2 px-4 py-3.5 rounded-xl font-semibold text-[15px] transition-all duration-200 active:scale-[0.98]',
+                            isCurrentPage
+                              ? 'text-brand-600 bg-brand-50'
+                              : 'text-slate-800 hover:bg-slate-50'
+                          )}
+                        >
+                          {isCurrentPage && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-brand-500 flex-shrink-0" />
+                          )}
+                          {link.label}
+                        </Link>
+                        {hasSections && (
+                          <button
+                            onClick={() => setMobileExpanded(isExpanded ? null : link.label)}
+                            className="w-10 h-10 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-100 transition-all duration-200"
                           >
-                            <div className={cn('w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0', item.color)}>
-                              <Icon className="w-3.5 h-3.5" />
+                            <motion.div animate={{ rotate: isExpanded ? 180 : 0 }} transition={{ duration: 0.25 }}>
+                              <ChevronDown className="w-4 h-4" />
+                            </motion.div>
+                          </button>
+                        )}
+                      </div>
+
+                      {/* Expandable sub-items */}
+                      <AnimatePresence>
+                        {hasSections && isExpanded && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                            className="overflow-hidden"
+                          >
+                            <div className="ml-3 mt-1 space-y-0.5 mb-2 pb-2 border-b border-slate-100">
+                              {link.sections!.flatMap((s) => s.items).map((item, j) => {
+                                const Icon = item.icon;
+                                return (
+                                  <motion.div key={item.label}
+                                    initial={{ opacity: 0, x: -8 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: j * 0.04 }}>
+                                    <Link
+                                      href={item.href}
+                                      onClick={() => setMobileOpen(false)}
+                                      className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 text-[13px] hover:bg-slate-50 hover:text-brand-600 transition-all duration-200 active:scale-[0.98] group"
+                                    >
+                                      <div className={cn('w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110', item.color)}>
+                                        <Icon className="w-3.5 h-3.5" />
+                                      </div>
+                                      <div className="flex-1">
+                                        <div className="font-semibold text-slate-700 group-hover:text-brand-600 transition-colors">{item.label}</div>
+                                        <div className="text-[11px] text-slate-400 leading-tight mt-0.5">{item.desc}</div>
+                                      </div>
+                                      <ArrowRight className="w-3.5 h-3.5 text-slate-300 opacity-0 group-hover:opacity-100 transition-all duration-200 flex-shrink-0" />
+                                    </Link>
+                                  </motion.div>
+                                );
+                              })}
                             </div>
-                            <div>
-                              <div className="font-semibold text-slate-700">{item.label}</div>
-                              <div className="text-[11px] text-slate-400 leading-tight mt-0.5">{item.desc}</div>
-                            </div>
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              ))}
-              <div className="pt-3 pb-2 border-t border-slate-100 flex flex-col gap-2.5">
-                <Link href="/learning-hub" onClick={() => setMobileOpen(false)}
-                  className="btn-primary justify-center text-[14px] py-3.5">
-                  Enroll Free
-                </Link>
-                <Link href="/contact" onClick={() => setMobileOpen(false)}
-                  className="btn-secondary justify-center text-[14px] py-3.5">
-                  Contact Us
-                </Link>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+                  );
+                })}
+
+                {/* Mobile CTAs */}
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.25 }}
+                  className="pt-3 pb-2 border-t border-slate-100 flex flex-col gap-2.5"
+                >
+                  <Link href="/learning-hub" onClick={() => setMobileOpen(false)}
+                    className="btn-primary justify-center text-[14px] py-3.5 group">
+                    Enroll Free <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                  <Link href="/contact" onClick={() => setMobileOpen(false)}
+                    className="btn-secondary justify-center text-[14px] py-3.5">
+                    Contact Us
+                  </Link>
+                </motion.div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </motion.header>
