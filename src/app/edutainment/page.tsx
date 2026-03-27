@@ -8,11 +8,12 @@ import {
   ArrowRight, Sparkles, Calendar, School, Bell,
   Target, Play, MapPin, CheckCircle2, Award, Globe,
   TrendingUp, Brain, Rocket, BarChart3, ChevronLeft, ChevronRight,
-  ExternalLink, Smartphone
+  ExternalLink, Smartphone, Loader2
 } from 'lucide-react';
 import SectionWrapper from '@/components/ui/SectionWrapper';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import { submitForm } from '@/lib/formSubmit';
+import { useToast } from '@/components/Toast';
 
 const products = [
   {
@@ -222,46 +223,57 @@ function TestimonialsSlider({ testimonials }: { testimonials: { quote: string; n
 
 function WaitlistForm() {
   const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
+  const { showToast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
     setStatus('loading');
-    try {
-      await submitForm('waitlist', { email });
+    const result = await submitForm('waitlist', { email });
+    if (result.success) {
       setStatus('success');
       setEmail('');
-      setTimeout(() => setStatus('idle'), 4000);
-    } catch {
-      setStatus('error');
-      setTimeout(() => setStatus('idle'), 3000);
+      showToast('success', 'You\'re on the Sezwor waitlist! We\'ll notify you at launch.');
+      setTimeout(() => setStatus('idle'), 5000);
+    } else {
+      setStatus('idle');
+      showToast('error', result.error || 'Failed to join. Please try again.');
     }
   };
 
-  if (status === 'success') {
-    return (
-      <div className="flex items-center justify-center gap-2 py-3 text-emerald-400 text-sm font-semibold">
-        <CheckCircle2 className="w-4 h-4" /> You're on the waitlist!
-      </div>
-    );
-  }
-
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Enter your email address"
-        required
-        className="flex-1 px-4 py-3.5 rounded-xl border-2 border-white/[0.06] bg-white/[0.06] text-white placeholder-white/30 focus:outline-none focus:border-brand-400/60 transition-all text-[14px]"
-      />
-      <button type="submit" disabled={status === 'loading'}
-        className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-brand-500 to-purple-600 text-white font-bold text-[14px] flex items-center justify-center gap-2 hover:opacity-90 transition-opacity whitespace-nowrap shadow-lg disabled:opacity-60">
-        {status === 'loading' ? 'Joining...' : <>Join Waitlist <Zap className="w-4 h-4" /></>}
-      </button>
-    </form>
+    <AnimatePresence mode="wait">
+      {status === 'success' ? (
+        <motion.div key="success" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }} transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+          className="flex items-center justify-center gap-3 py-3.5">
+          <motion.div initial={{ scale: 0, rotate: -180 }} animate={{ scale: 1, rotate: 0 }}
+            transition={{ type: 'spring', damping: 12, stiffness: 200, delay: 0.1 }}>
+            <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center">
+              <CheckCircle2 className="w-4.5 h-4.5 text-white" />
+            </div>
+          </motion.div>
+          <span className="text-emerald-400 text-sm font-semibold">You're on the waitlist!</span>
+        </motion.div>
+      ) : (
+        <motion.form key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email address"
+            required
+            className="flex-1 px-4 py-3.5 rounded-xl border-2 border-white/[0.06] bg-white/[0.06] text-white placeholder-white/30 focus:outline-none focus:border-brand-400/60 focus:bg-white/[0.1] transition-all duration-300 text-[14px]"
+          />
+          <motion.button type="submit" disabled={status === 'loading'} whileTap={{ scale: 0.97 }}
+            className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-brand-500 to-purple-600 text-white font-bold text-[14px] flex items-center justify-center gap-2 hover:-translate-y-0.5 transition-all duration-300 whitespace-nowrap shadow-lg disabled:opacity-60">
+            {status === 'loading' ? <Loader2 className="w-4 h-4 animate-spin" /> : <>Join Waitlist <Zap className="w-4 h-4" /></>}
+          </motion.button>
+        </motion.form>
+      )}
+    </AnimatePresence>
   );
 }
 

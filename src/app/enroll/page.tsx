@@ -8,6 +8,7 @@ import {
   User, Mail, Phone, MapPin, GraduationCap, Loader2, Sparkles
 } from 'lucide-react';
 import { submitForm } from '@/lib/formSubmit';
+import { useToast } from '@/components/Toast';
 
 const programs = [
   {
@@ -73,16 +74,19 @@ export default function EnrollPage() {
   const [active, setActive] = useState<string | null>(null);
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
+  const { showToast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!active) return;
     setStatus('loading');
-    try {
-      await submitForm('enrollment', { program: active, ...formData });
+    const result = await submitForm('enrollment', { program: active, ...formData });
+    if (result.success) {
       setStatus('success');
-    } catch {
+      showToast('success', 'Application submitted! We\'ll be in touch within 48 hours.');
+    } else {
       setStatus('idle');
+      showToast('error', result.error || 'Submission failed. Please try again.');
     }
   };
 

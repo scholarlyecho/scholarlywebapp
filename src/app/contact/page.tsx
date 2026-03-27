@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import SectionWrapper from '@/components/ui/SectionWrapper';
 import { submitForm } from '@/lib/formSubmit';
+import { useToast } from '@/components/Toast';
 
 const inquiryTypes = [
   { id: 'enrollment', label: 'Program Enrollment', icon: CheckCircle2, desc: 'Enroll a learner or get a free assessment' },
@@ -30,18 +31,19 @@ export default function ContactPage() {
   const [selectedType, setSelectedType] = useState('enrollment');
   const [formData, setFormData] = useState({ name: '', email: '', country: '', role: 'Parent / Guardian', message: '' });
   const [sending, setSending] = useState(false);
+  const { showToast } = useToast();
 
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSending(true);
-    try {
-      await submitForm('contact', { ...formData, subject: selectedType });
+    const result = await submitForm('contact', { ...formData, subject: selectedType });
+    setSending(false);
+    if (result.success) {
       setSubmitted(true);
       setFormData({ name: '', email: '', country: '', role: 'Parent / Guardian', message: '' });
-    } catch {
-      alert('Something went wrong. Please try again.');
-    } finally {
-      setSending(false);
+      showToast('success', 'Message sent! Our team will respond within 24–48 hours.');
+    } else {
+      showToast('error', result.error || 'Failed to send. Please try again.');
     }
   };
 
