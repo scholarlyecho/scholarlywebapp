@@ -421,13 +421,13 @@ export default function HomePage() {
               icon={Gamepad2}
               title="Edutainment"
               subtitle="Engage"
-              description="Gamified learning experiences that feel like winning. From our iconic Millionaire Game Show to Sezwor's multiplayer knowledge battles — education has never been this engaging."
+              description="Gamified learning experiences that feel like winning. From our iconic Millionaire Game Show to Sezwor's interactive group quizzes — education has never been this engaging."
               color="text-emerald-600"
               gradient="from-emerald-400 to-teal-600"
               href="/edutainment"
               features={[
                 'Millionaire educational game show',
-                'Sezwor — cross-Africa competitions',
+                'Sezwor — interactive group quizzes',
                 'World National Flag Challenge',
                 'School & community event bookings',
               ]}

@@ -58,6 +58,16 @@ export default function SpotlightMediaPage() {
               transition={{ duration: 3 + i * 0.5, repeat: Infinity, delay: i * 0.3 }} />
           ))}
         </div>
+        {/* Ambient glow orbs */}
+        <div className="absolute top-[15%] left-[5%] w-[500px] h-[500px] rounded-full opacity-[0.15]"
+          style={{ background: 'radial-gradient(circle, #f59e0b 0%, transparent 65%)' }} />
+        <div className="absolute bottom-[10%] right-[10%] w-[400px] h-[400px] rounded-full opacity-[0.12]"
+          style={{ background: 'radial-gradient(circle, #6e42ff 0%, transparent 65%)' }} />
+        <div className="absolute top-[40%] right-[25%] w-[300px] h-[300px] rounded-full opacity-[0.08]"
+          style={{ background: 'radial-gradient(circle, #ec4899 0%, transparent 65%)' }} />
+        {/* Horizon glow */}
+        <div className="absolute bottom-0 left-0 right-0 h-px"
+          style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(245,158,11,0.4) 30%, rgba(251,191,36,0.5) 50%, rgba(245,158,11,0.4) 70%, transparent 100%)' }} />
 
         <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 relative z-10">
           <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-14 items-center">
@@ -68,7 +78,7 @@ export default function SpotlightMediaPage() {
               </motion.div>
 
               <motion.h1 initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-                className="text-[2rem] sm:text-3xl md:text-4xl lg:text-[4rem] font-extrabold text-white leading-[1.04] tracking-[-0.03em] mb-6"
+                className="text-[2rem] sm:text-3xl md:text-4xl lg:text-[4rem] font-extrabold text-white leading-[1.15] tracking-[-0.03em] mb-6"
                 style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
                 Stories That Turn
                 <br />
