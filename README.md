@@ -1,6 +1,15 @@
 # ScholarlyEcho Web Platform
 
+[![Deploy to Firebase](https://github.com/scholarlyecho/scholarlywebapp/actions/workflows/firebase-deploy.yml/badge.svg)](https://github.com/scholarlyecho/scholarlywebapp/actions/workflows/firebase-deploy.yml)
+[![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)](https://nextjs.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![Firebase](https://img.shields.io/badge/Firebase-Hosting-FFCA28?logo=firebase&logoColor=white)](https://scholarly-echo.web.app)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Framer Motion](https://img.shields.io/badge/Framer_Motion-11-FF0050?logo=framer&logoColor=white)](https://www.framer.com/motion)
+
 A premium Next.js 14 web platform for ScholarlyEcho — a global youth empowerment ecosystem built around three pillars: **Learn**, **Inspire**, and **Engage**.
+
+**Live:** [scholarly-echo.web.app](https://scholarly-echo.web.app)
 
 ## Tech Stack
 
