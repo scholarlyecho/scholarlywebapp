@@ -19,7 +19,7 @@ const programs = [
     desc: 'Enroll in our 5-level Coders Ladder — from Scratch to building real SaaS products.',
     color: 'from-brand-500 to-purple-600',
     light: 'bg-brand-50 text-brand-600 border-brand-100',
-    fields: ['name', 'email', 'phone', 'dob', 'country', 'level', 'siblings'],
+    fields: ['name', 'email', 'phone', 'dob', 'country', 'plan', 'level', 'priorExperience', 'siblings'],
   },
   {
     id: 'inspire-media',
@@ -39,7 +39,7 @@ const programs = [
     desc: 'Take a free assessment to determine your readiness for our AI Developer or Product Builder tracks.',
     color: 'from-pink-500 to-rose-500',
     light: 'bg-rose-50 text-rose-600 border-rose-100',
-    fields: ['name', 'email', 'phone', 'dob', 'experience'],
+    fields: ['name', 'email', 'phone', 'dob', 'priorExperience', 'experience'],
   },
   {
     id: 'code-prodigy',
@@ -49,7 +49,7 @@ const programs = [
     desc: 'Apply to our elite program for exceptional learners — hackathons, industry mentors, and real projects.',
     color: 'from-amber-400 to-orange-500',
     light: 'bg-amber-50 text-amber-700 border-amber-100',
-    fields: ['name', 'email', 'phone', 'dob', 'country', 'portfolio', 'motivation'],
+    fields: ['name', 'email', 'phone', 'dob', 'country', 'priorExperience', 'portfolio', 'motivation'],
   },
 ];
 
@@ -59,15 +59,19 @@ const fieldConfig: Record<string, { label: string; type: string; placeholder: st
   phone: { label: 'Phone Number', type: 'tel', placeholder: '+1 234 567 8900', icon: Phone },
   dob: { label: 'Date of Birth', type: 'date', placeholder: '', icon: GraduationCap },
   country: { label: 'Country', type: 'text', placeholder: 'e.g. Nigeria, USA, UK', icon: MapPin },
+  plan: { label: 'Pricing Plan', type: 'select', placeholder: '', icon: Sparkles },
   level: { label: 'Preferred Level', type: 'select', placeholder: '', icon: GraduationCap },
+  priorExperience: { label: 'Prior Coding Experience', type: 'select', placeholder: '', icon: Brain },
   siblings: { label: 'Number of Siblings Enrolling', type: 'select', placeholder: '', icon: User },
   topic: { label: 'Topic / Research Area', type: 'text', placeholder: 'e.g. AI in Education, Public Health', icon: Sparkles },
   bio: { label: 'Short Bio / Background', type: 'textarea', placeholder: 'Tell us about yourself and your work...', icon: User, rows: 3 },
-  experience: { label: 'Coding Experience', type: 'select', placeholder: '', icon: Brain },
+  experience: { label: 'AI/Tech Readiness', type: 'select', placeholder: '', icon: Brain },
   portfolio: { label: 'Portfolio / GitHub URL', type: 'url', placeholder: 'https://github.com/yourname', icon: Sparkles },
   motivation: { label: 'Why Code Prodigy?', type: 'textarea', placeholder: 'Why do you want to join the elite program? What are you building?', icon: Sparkles, rows: 4 },
 };
 
+const planOptions = ['Starter — $75/mo (1 session/week)', 'Standard — $200/mo (2 sessions/week)', 'Premium 1-on-1 — $350/mo', 'Code Prodigy — $450/mo (Elite)', 'Not sure — help me choose'];
+const priorExpOptions = ['No prior experience', 'Scratch / block-based coding', 'Basic Python or JavaScript', 'HTML/CSS websites', 'Built apps or projects before', 'Comfortable with multiple languages'];
 const siblingOptions = ['Just me (no siblings)', '1 sibling (10% off 2nd child)', '2 siblings (10% + 15% off)', '3+ siblings (contact us)'];
 
 function calculateAge(dob: string): number {
@@ -238,7 +242,7 @@ export default function EnrollPage() {
                                   onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
                                   className="w-full px-4 py-3.5 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-brand-400 transition-colors text-slate-700 text-sm bg-white">
                                   <option value="">Select...</option>
-                                  {(key === 'level' ? levelOptions : key === 'siblings' ? siblingOptions : experienceOptions).map((opt) => (
+                                  {(key === 'plan' ? planOptions : key === 'level' ? levelOptions : key === 'priorExperience' ? priorExpOptions : key === 'siblings' ? siblingOptions : experienceOptions).map((opt) => (
                                     <option key={opt} value={opt}>{opt}</option>
                                   ))}
                                 </select>

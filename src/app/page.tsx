@@ -219,7 +219,7 @@ export default function HomePage() {
                   <Link href="/learning-hub"
                     className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl font-bold text-white text-[15px] gradient-bg shadow-[0_8px_32px_rgba(110,66,255,0.4)] hover:shadow-[0_16px_48px_rgba(110,66,255,0.55)] hover:-translate-y-1 transition-all duration-300"
                     style={{ boxShadow: '0 8px 32px rgba(110,66,255,0.4), inset 0 1px 0 rgba(255,255,255,0.15)' }}>
-                    Start for Free <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
+                    Learn Coding <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
                   </Link>
                   <Link href="/spotlight-media"
                     className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl border border-white/12 text-white/80 font-semibold text-[15px] hover:bg-white/[0.06] hover:border-white/20 transition-all duration-300 backdrop-blur-sm">
