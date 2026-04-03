@@ -121,7 +121,7 @@ export default function LearningHubPage() {
 
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
                 className="flex flex-wrap gap-3.5 mb-10">
-                <Link href="/contact" className="btn-primary text-[15px] px-7 py-3.5">
+                <Link href="/enroll" className="btn-primary text-[15px] px-7 py-3.5">
                   Enroll Now <ArrowRight className="w-5 h-5" />
                 </Link>
                 <Link href="/pricing" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-white/18 text-white font-semibold hover:bg-white/10 transition-all text-[15px]">
@@ -532,8 +532,8 @@ export default function LearningHubPage() {
               Free assessment. Clear pathway. Real mentors. Real outcomes. Join learners from 20+ countries.
             </p>
             <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center items-center sm:items-start">
-              <Link href="/contact" className="btn-primary text-[15px] px-8 py-4">
-                Enroll Now — It's Free <ArrowRight className="w-5 h-5" />
+              <Link href="/enroll" className="btn-primary text-[15px] px-8 py-4">
+                Enroll Now <ArrowRight className="w-5 h-5" />
               </Link>
               <Link href="/pricing" className="btn-white text-[15px] px-8 py-4">
                 View Pricing

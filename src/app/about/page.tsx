@@ -203,36 +203,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Team ── */}
-      <section className="py-16 sm:py-20 md:py-28 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
-          <SectionWrapper className="text-center mb-14">
-            <div className="section-tag mx-auto mb-5">
-              <Users className="w-3.5 h-3.5" /> Leadership Team
-            </div>
-            <h2 className="section-heading mb-4">Global Team, Shared Purpose</h2>
-            <p className="section-subheading mx-auto">Our team spans 6 countries and combines deep tech expertise with genuine passion for youth development.</p>
-          </SectionWrapper>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {team.map(({ role, initials, color, desc, country }, i) => (
-              <motion.div key={role}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="premium-card group hover:border-transparent hover:shadow-xl transition-all duration-300">
-                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${color} flex items-center justify-center text-white font-extrabold text-lg mb-4 shadow-lg group-hover:scale-105 transition-transform duration-300`}>
-                  {initials}
-                </div>
-                <div className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mb-0.5">{country}</div>
-                <h3 className="font-bold text-slate-900 mb-2.5 text-[15px]" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>{role}</h3>
-                <p className="text-slate-500 text-[12px] leading-relaxed">{desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── CTA ── */}
       <section className="py-14 sm:py-18 md:py-24 text-center relative overflow-hidden noise-overlay"
         style={{ background: 'linear-gradient(165deg, #070c1b 0%, #10082e 40%, #0d1333 60%, #070c1b 100%)' }}>
