@@ -388,7 +388,7 @@ export default function HomePage() {
               icon={BookOpen}
               title="Learning Hub"
               subtitle="Learn"
-              description="Structured coding and AI education from ages 5 to 30+. Progress through our 5-level Coders Ladder — from Scratch &amp; App Inventor to building real AI-powered products."
+              description="Project-based coding and AI education from ages 5 to 30+. Progress through our 5-level Coders Ladder — from Scratch &amp; App Inventor to building real AI-powered products."
               color="text-brand-600"
               gradient="from-brand-500 to-purple-600"
               href="/learning-hub"
@@ -421,13 +421,13 @@ export default function HomePage() {
               icon={Gamepad2}
               title="Edutainment"
               subtitle="Engage"
-              description="Gamified learning experiences that feel like winning. From our iconic Millionaire Game Show to Sezwor's interactive group quizzes — education has never been this engaging."
+              description="Gamified learning experiences that feel like winning. From our iconic Millionaire Game Show to Sezwor Mode's interactive group quizzes — education has never been this engaging."
               color="text-emerald-600"
               gradient="from-emerald-400 to-teal-600"
               href="/edutainment"
               features={[
                 'Millionaire educational game show',
-                'Sezwor — interactive group quizzes',
+                'Sezwor Mode — interactive group quizzes',
                 'World National Flag Challenge',
                 'School & community event bookings',
               ]}

@@ -102,7 +102,7 @@ export default function LearningHubPage() {
             <div>
               <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-500/15 border border-brand-400/25 text-brand-300 text-[13px] font-semibold mb-6">
-                <BookOpen className="w-3.5 h-3.5" /> Learning Hub · 5 Levels · AI-Ready
+                <BookOpen className="w-3.5 h-3.5" /> Learning Hub · Project-Based · 5 Levels · AI-Ready
               </motion.div>
 
               <motion.h1 initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
@@ -115,8 +115,8 @@ export default function LearningHubPage() {
 
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
                 className="text-white/45 text-[1.05rem] leading-[1.75] mb-8 max-w-[480px]">
-                Five structured levels — from Scratch & MIT App Inventor to building AI-powered products and launching real SaaS startups.
-                World-class curriculum. Global mentors. Real outcomes.
+                Project-based learning across five structured levels — from Scratch & MIT App Inventor to building AI-powered products and launching real SaaS startups.
+                Every learner builds real projects. World-class curriculum. Global mentors.
               </motion.p>
 
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}

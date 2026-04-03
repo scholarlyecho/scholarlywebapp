@@ -26,8 +26,8 @@ const footerLinks = {
   Engage: [
     { label: 'Edutainment', href: '/edutainment' },
     { label: 'Events & Hackathons', href: '/events' },
-    { label: 'Sezwor Waitlist', href: '/edutainment#sezwor' },
-    { label: 'School Bookings', href: '/edutainment#book' },
+    { label: 'Sezwor Mode Waitlist', href: '/edutainment#sezwor' },
+    { label: 'School Bookings', href: '/school-booking' },
   ],
   Company: [
     { label: 'About', href: '/about' },

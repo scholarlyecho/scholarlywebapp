@@ -49,10 +49,10 @@ const products = [
   {
     id: 'sezwor',
     icon: Gamepad2,
-    name: 'Sezwor',
+    name: 'Sezwor Mode',
     tag: 'Coming Soon · 2026',
     tagColor: 'bg-brand-100 text-brand-700',
-    desc: 'An interactive group quiz and learning platform that makes education thrilling. Sezwor brings classrooms alive with real-time multiplayer quizzes, subject-based leagues, and global leaderboards — turning every lesson into a game students actually want to play.',
+    desc: 'An interactive group quiz and learning platform that makes education thrilling. Sezwor Mode brings classrooms alive with real-time multiplayer quizzes, subject-based leagues, and global leaderboards — turning every lesson into a game students actually want to play.',
     features: [
       'Real-time multiplayer group quizzes (up to 500 players)',
       'Teacher-hosted live sessions for classrooms & events',
@@ -142,7 +142,7 @@ const testimonials = [
 const upcomingEvents = [
   { title: 'Millionaire Game Show — Continental Tour', date: 'April 26, 2026', cities: 'Lagos · Accra · Nairobi · London', badge: 'Multi-city', color: 'bg-emerald-50 text-emerald-700 border-emerald-100' },
   { title: 'World Flag Challenge — African Continental Finals', date: 'June 14, 2026', cities: 'Abuja, Nigeria + Livestream', badge: 'Continental', color: 'bg-amber-50 text-amber-700 border-amber-100' },
-  { title: 'Sezwor Beta Launch + Tournament', date: 'August 2026', cities: 'Online · Global', badge: 'Coming Soon', color: 'bg-brand-50 text-brand-700 border-brand-100' },
+  { title: 'Sezwor Mode Beta Launch + Tournament', date: 'August 2026', cities: 'Online · Global', badge: 'Coming Soon', color: 'bg-brand-50 text-brand-700 border-brand-100' },
 ];
 
 function TestimonialsSlider({ testimonials }: { testimonials: { quote: string; name: string; role: string; country: string; color: string }[] }) {
@@ -234,7 +234,7 @@ function WaitlistForm() {
     if (result.success) {
       setStatus('success');
       setEmail('');
-      showToast('success', 'You\'re on the Sezwor waitlist! We\'ll notify you at launch.');
+      showToast('success', 'You\'re on the Sezwor Mode waitlist! We\'ll notify you at launch.');
       setTimeout(() => setStatus('idle'), 5000);
     } else {
       setStatus('idle');
@@ -531,7 +531,7 @@ export default function EdutainmentPage() {
         <div className="max-w-2xl mx-auto px-5 sm:px-8 text-center relative z-10">
           <SectionWrapper>
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.06] border border-white/[0.08] text-white/60 text-[13px] mb-6">
-              <Gamepad2 className="w-3.5 h-3.5 text-brand-300" /> Sezwor — Launching 2026
+              <Gamepad2 className="w-3.5 h-3.5 text-brand-300" /> Sezwor Mode — Launching 2026
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-5 tracking-[-0.02em]"
               style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
