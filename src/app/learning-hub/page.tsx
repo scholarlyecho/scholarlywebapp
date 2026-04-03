@@ -13,7 +13,7 @@ import AnimatedCounter from '@/components/ui/AnimatedCounter';
 
 const levels = [
   {
-    id: 1, name: 'Explorer', age: 'Ages 7–10',
+    id: 1, name: 'Explorer', age: 'Ages 5–10',
     color: 'from-teal-400 to-emerald-500',
     tag: 'Visual Coding',
     tools: ['Scratch 3.0', 'code.org Blockly', 'MIT Scratch Jr', 'Tynker'],
@@ -69,7 +69,7 @@ const formats = [
 ];
 
 const faqs = [
-  { q: 'What age can my child start?', a: 'We welcome learners from age 7 (Explorer level — Scratch & visual coding) all the way to young adults and university students. Every learner is assessed first to determine the best starting level — this is always free.' },
+  { q: 'What age can my child start?', a: 'We welcome learners from age 5 (Explorer level — Scratch & visual coding) all the way to young adults and university students. Every learner is assessed first to determine the best starting level — this is always free.' },
   { q: 'Do you offer payment plans?', a: 'Yes! We offer monthly subscriptions, term-based packages, and installment plans in USD. Scholarship and need-based discounts are available for qualifying learners globally.' },
   { q: 'Are classes online or physical?', a: 'Both! We offer fully online sessions via Zoom, and in-person classes at partner locations. We are online-first with a global reach — students from 20+ countries are enrolled.' },
   { q: 'What do students actually build?', a: 'Real projects — websites, apps, AI tools, and SaaS products. Every level ends with portfolio-ready work. AI Builder students have deployed AI apps; Product Builder students have launched live products.' },

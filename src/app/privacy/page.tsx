@@ -52,7 +52,7 @@ const sections = [
     title: 'Your Rights',
     color: 'bg-rose-50 text-rose-600',
     content: [
-      { heading: 'Access & Export', text: 'You can request a full export of your personal data at any time from your account settings or by emailing hello@scholarlyecho.com.' },
+      { heading: 'Access & Export', text: 'You can request a full export of your personal data at any time from your account settings or by emailing scholarlyechos@gmail.com.' },
       { heading: 'Correction', text: 'You can update your profile information directly in your account dashboard.' },
       { heading: 'Deletion', text: 'You may request deletion of your account and all associated data. We will process this within 30 days, subject to legal retention requirements.' },
       { heading: 'COPPA & GDPR', text: 'We comply with COPPA (USA) for learners under 13, and GDPR (EU/UK) for users in those regions. Parents of minors may exercise rights on their child\'s behalf.' },

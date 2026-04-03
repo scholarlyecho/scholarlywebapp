@@ -12,7 +12,7 @@ const sections = [
     content: [
       { heading: 'Age Requirements', text: 'ScholarlyEcho is open to learners aged 7 and above. Learners under 13 must have verifiable parental or guardian consent prior to enrollment. Learners aged 13–17 are considered minors and may require parental co-agreement depending on their country of residence.' },
       { heading: 'Account Accuracy', text: 'You agree to provide accurate, current, and complete information during registration and to keep your profile up to date. Providing false information — including misrepresenting a child\'s age — constitutes a breach of these Terms and may result in immediate account suspension.' },
-      { heading: 'Account Security', text: 'You are responsible for maintaining the confidentiality of your login credentials. You agree to notify us immediately at hello@scholarlyecho.com if you suspect unauthorised access to your account.' },
+      { heading: 'Account Security', text: 'You are responsible for maintaining the confidentiality of your login credentials. You agree to notify us immediately at scholarlyechos@gmail.com if you suspect unauthorised access to your account.' },
     ],
   },
   {
@@ -61,7 +61,7 @@ const sections = [
     color: 'bg-slate-100 text-slate-600',
     content: [
       { heading: 'Governing Law', text: 'These Terms are governed by the laws of the State of Maryland, United States, without regard to conflict-of-law principles.' },
-      { heading: 'Dispute Resolution', text: 'We encourage you to contact us first at hello@scholarlyecho.com. If a resolution cannot be reached, disputes shall be settled by binding arbitration under JAMS rules, except where prohibited by local law.' },
+      { heading: 'Dispute Resolution', text: 'We encourage you to contact us first at scholarlyechos@gmail.com. If a resolution cannot be reached, disputes shall be settled by binding arbitration under JAMS rules, except where prohibited by local law.' },
       { heading: 'Changes to Terms', text: 'We may update these Terms from time to time. We will notify you by email and in-app notification at least 14 days before material changes take effect. Continued use of the platform constitutes acceptance.' },
     ],
   },

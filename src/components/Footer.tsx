@@ -116,7 +116,7 @@ export default function Footer() {
             </Link>
 
             <p className="text-slate-400 text-sm leading-relaxed mb-5 max-w-full sm:max-w-[280px]">
-              A knowledge-first global youth empowerment ecosystem. Disrupting education across Africa and beyond — one learner at a time.
+              A knowledge-first global youth empowerment ecosystem. Disrupting education globally — one learner at a time.
             </p>
 
             {/* Global reach */}
@@ -135,13 +135,13 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2.5 text-slate-400">
                 <Mail className="w-4 h-4 text-brand-400 flex-shrink-0" />
-                <a href="mailto:hello@scholarlyecho.com" className="hover:text-white transition-colors">
-                  hello@scholarlyecho.com
+                <a href="mailto:scholarlyechos@gmail.com" className="hover:text-white transition-colors">
+                  scholarlyechos@gmail.com
                 </a>
               </div>
               <div className="flex items-center gap-2.5 text-slate-400">
                 <Globe className="w-4 h-4 text-brand-400 flex-shrink-0" />
-                <span>Global · Online-first · Africa-rooted</span>
+                <span>Global · Online-first</span>
               </div>
             </div>
           </div>

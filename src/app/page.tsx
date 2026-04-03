@@ -388,7 +388,7 @@ export default function HomePage() {
               icon={BookOpen}
               title="Learning Hub"
               subtitle="Learn"
-              description="Structured coding and AI education from ages 7 to 30+. Progress through our 5-level Coders Ladder — from Scratch &amp; App Inventor to building real AI-powered products."
+              description="Structured coding and AI education from ages 5 to 30+. Progress through our 5-level Coders Ladder — from Scratch &amp; App Inventor to building real AI-powered products."
               color="text-brand-600"
               gradient="from-brand-500 to-purple-600"
               href="/learning-hub"
@@ -499,7 +499,7 @@ export default function HomePage() {
 
                   <div className="space-y-3">
                     {[
-                      { n: 1, name: 'Explorer', age: 'Ages 7–10', color: 'from-teal-400 to-emerald-500', tag: 'Scratch · Blockly' },
+                      { n: 1, name: 'Explorer', age: 'Ages 5–10', color: 'from-teal-400 to-emerald-500', tag: 'Scratch · Blockly' },
                       { n: 2, name: 'Builder', age: 'Ages 10–13', color: 'from-brand-400 to-blue-500', tag: 'App Inventor · Python' },
                       { n: 3, name: 'Creator', age: 'Ages 13–16', color: 'from-violet-400 to-purple-600', tag: 'JS · React · APIs' },
                       { n: 4, name: 'AI Developer', age: 'Ages 14+', color: 'from-pink-500 to-rose-500', tag: 'ML · GPT · Computer Vision' },
@@ -565,7 +565,7 @@ export default function HomePage() {
             {[
               { icon: Brain, title: 'AI-First Curriculum', desc: 'Every learner develops AI literacy and the ability to build with AI tools — a non-negotiable for the modern world.', color: 'bg-purple-50 text-purple-600', gradient: 'from-purple-500 to-indigo-600' },
               { icon: Globe, title: 'Globally Connected', desc: 'Learners, mentors, and partners from 20+ countries. Your network grows as fast as your skills.', color: 'bg-blue-50 text-blue-600', gradient: 'from-blue-500 to-brand-600' },
-              { icon: Heart, title: 'Community-Rooted', desc: 'Africa-rooted and globally minded. Our context, stories, and pricing reflect the communities we serve.', color: 'bg-rose-50 text-rose-600', gradient: 'from-rose-500 to-pink-600' },
+              { icon: Heart, title: 'Community-Rooted', desc: 'Globally minded. Our context, stories, and pricing reflect the communities we serve.', color: 'bg-rose-50 text-rose-600', gradient: 'from-rose-500 to-pink-600' },
               { icon: BarChart3, title: 'Measurable Outcomes', desc: 'We track and publish impact data — projects built, careers launched, research implemented.', color: 'bg-emerald-50 text-emerald-600', gradient: 'from-emerald-500 to-teal-600' },
             ].map(({ icon: Icon, title, desc, color, gradient }, i) => (
               <motion.div key={title}
@@ -604,7 +604,7 @@ export default function HomePage() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
-              { title: 'Coding for Kids', tag: 'Ages 7–12', desc: 'Fun, visual coding using Scratch and beginner Python. Builds logic, creativity, and confidence.', price: 'From $19/mo', icon: Code2, color: 'from-brand-500 to-purple-600', href: '/learning-hub' },
+              { title: 'Coding for Kids', tag: 'Ages 5–12', desc: 'Fun, visual coding using Scratch and beginner Python. Builds logic, creativity, and confidence.', price: 'From $19/mo', icon: Code2, color: 'from-brand-500 to-purple-600', href: '/learning-hub' },
               { title: 'AI Foundations Track', tag: 'Ages 14+', desc: 'Machine learning, prompt engineering, Python AI. Prepare for the AI-first economy.', price: 'From $39/mo', icon: Brain, color: 'from-purple-500 to-indigo-600', href: '/learning-hub#ai-tracks' },
               { title: 'Product Builder', tag: 'Ages 16+', desc: 'Build and launch real SaaS products. Startup thinking, MVP development, and pitch coaching.', price: 'From $59/mo', icon: Rocket, color: 'from-emerald-400 to-teal-600', href: '/learning-hub#ai-tracks' },
               { title: 'Code Prodigy Elite', tag: 'Application only', desc: 'Elite cohort for exceptional learners — hackathons, industry mentors, real project showcases.', price: 'Apply to access', icon: Trophy, color: 'from-amber-400 to-orange-500', href: '/learning-hub/code-prodigy' },
@@ -716,46 +716,79 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ UPCOMING EVENTS ═══ */}
+      {/* ═══ PROGRAMS ═══ */}
       <section className="py-16 sm:py-20 md:py-28 bg-slate-50/80">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <SectionWrapper className="text-center mb-14">
+            <div className="section-tag mx-auto mb-5">
+              <TrendingUp className="w-3.5 h-3.5" /> Programs
+            </div>
+            <h2 className="section-heading mb-4">Our <span className="gradient-text">Programs</span></h2>
+            <p className="section-subheading mx-auto">Past and upcoming programs that shape the next generation of builders.</p>
+          </SectionWrapper>
+
+          <div className="grid md:grid-cols-2 gap-8 mb-10">
+            {/* Past Programs */}
             <SectionWrapper>
-              <div className="section-tag mb-4">
-                <TrendingUp className="w-3.5 h-3.5" /> Events
+              <h3 className="text-lg font-extrabold text-slate-900 mb-5 flex items-center gap-2" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                <span className="w-2 h-2 rounded-full bg-emerald-500" /> Completed
+              </h3>
+              <div className="space-y-3">
+                {[
+                  { title: 'Summer of Code 2025', date: 'Jun–Aug 2025', tag: 'Learning Hub', tagColor: 'bg-brand-50 text-brand-600', desc: 'Intensive summer coding bootcamp across 3 continents — 500+ students graduated.' },
+                  { title: 'Build for Ramadan 2026', date: 'Mar 2026', tag: 'Community', tagColor: 'bg-emerald-50 text-emerald-600', desc: 'Special program blending tech education with community service during Ramadan.' },
+                  { title: 'AI Track Launch 2025', date: 'Sep 2025', tag: 'AI Developer', tagColor: 'bg-purple-50 text-purple-600', desc: 'Launch of AI Developer and Product Builder tracks with first cohort of 120 students.' },
+                ].map((p, i) => (
+                  <motion.div key={p.title} initial={{ opacity: 0, x: -12 }} whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }} transition={{ delay: i * 0.08 }}
+                    className="premium-card group relative overflow-hidden">
+                    <div className="absolute top-0 left-0 bottom-0 w-[3px] bg-emerald-400 rounded-l-2xl" />
+                    <div className="flex items-start justify-between gap-3 mb-2">
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${p.tagColor}`}>{p.tag}</span>
+                      <span className="text-[11px] text-slate-400 flex-shrink-0">{p.date}</span>
+                    </div>
+                    <h4 className="text-[15px] font-bold text-slate-900 mb-1.5 group-hover:text-brand-600 transition-colors" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>{p.title}</h4>
+                    <p className="text-slate-500 text-[13px] leading-relaxed">{p.desc}</p>
+                  </motion.div>
+                ))}
               </div>
-              <h2 className="section-heading">What&apos;s Coming Up</h2>
             </SectionWrapper>
-            <Link href="/events" className="btn-secondary text-sm flex-shrink-0">
-              View All Events <ArrowRight className="w-4 h-4" />
-            </Link>
+
+            {/* Upcoming Programs */}
+            <SectionWrapper delay={0.1}>
+              <h3 className="text-lg font-extrabold text-slate-900 mb-5 flex items-center gap-2" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-500" />
+                </span>
+                Upcoming
+              </h3>
+              <div className="space-y-3">
+                {[
+                  { title: 'Summer of Code 2026', date: 'Jun–Aug 2026', tag: 'Learning Hub', tagColor: 'bg-brand-50 text-brand-600', desc: 'Our biggest summer bootcamp yet — online + physical in 5 cities globally. Early registration open.' },
+                  { title: 'Millionaire Game Show — Continental Tour', date: 'Apr 2026', tag: 'Edutainment', tagColor: 'bg-amber-50 text-amber-600', desc: 'Multi-city educational game show across Lagos, Accra, London, and more.' },
+                  { title: 'Research-to-Impact Summit', date: 'May 2026', tag: 'Spotlight Media', tagColor: 'bg-amber-50 text-amber-600', desc: 'Global virtual summit connecting PhD researchers with communities for real-world impact.' },
+                ].map((p, i) => (
+                  <motion.div key={p.title} initial={{ opacity: 0, x: 12 }} whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }} transition={{ delay: i * 0.08 }}
+                    className="premium-card group relative overflow-hidden">
+                    <div className="absolute top-0 left-0 bottom-0 w-[3px] bg-gradient-to-b from-brand-400 to-purple-500 rounded-l-2xl" />
+                    <div className="flex items-start justify-between gap-3 mb-2">
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${p.tagColor}`}>{p.tag}</span>
+                      <span className="text-[11px] text-brand-500 font-semibold flex-shrink-0">{p.date}</span>
+                    </div>
+                    <h4 className="text-[15px] font-bold text-slate-900 mb-1.5 group-hover:text-brand-600 transition-colors" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>{p.title}</h4>
+                    <p className="text-slate-500 text-[13px] leading-relaxed">{p.desc}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </SectionWrapper>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { date: 'Apr 12', title: 'Global Holiday Coding Bootcamp', type: 'Learning Hub', location: 'Online + Physical', color: 'from-brand-500 to-purple-600', tagColor: 'bg-brand-50 text-brand-600' },
-              { date: 'Apr 26', title: 'Millionaire Game Show — Continental Edition', type: 'Edutainment', location: 'Multi-city + Livestream', color: 'from-emerald-400 to-teal-600', tagColor: 'bg-emerald-50 text-emerald-600' },
-              { date: 'May 8', title: 'Research-to-Impact Global Summit', type: 'Spotlight Media', location: 'Virtual (Worldwide)', color: 'from-amber-400 to-orange-500', tagColor: 'bg-amber-50 text-amber-600' },
-            ].map((event, i) => (
-              <motion.div key={event.title}
-                initial={{ opacity: 0, y: 28 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="premium-card overflow-hidden group relative">
-                <div className={`h-[3px] bg-gradient-to-r ${event.color} -mx-4 sm:-mx-6 -mt-4 sm:-mt-6 mb-5 sm:mb-6`} />
-                <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold mb-3 ${event.tagColor}`}>{event.type}</span>
-                <h4 className="text-[16px] font-bold text-slate-900 mb-3 group-hover:text-brand-600 transition-colors duration-300 leading-snug"
-                  style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>{event.title}</h4>
-                <div className="space-y-1.5 mb-5 text-sm text-slate-400">
-                  <div className="flex items-center gap-2">📅 {event.date}, 2026</div>
-                  <div className="flex items-center gap-2">📍 {event.location}</div>
-                </div>
-                <Link href="/events" className="inline-flex items-center gap-2 text-sm font-bold text-brand-600 hover:gap-3 transition-all duration-300">
-                  Register Now <ArrowRight className="w-4 h-4" />
-                </Link>
-              </motion.div>
-            ))}
+          <div className="text-center">
+            <Link href="/events" className="btn-secondary text-sm">
+              View All Programs & Events <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>

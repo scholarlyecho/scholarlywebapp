@@ -12,80 +12,81 @@ import SectionWrapper from '@/components/ui/SectionWrapper';
 const packages = [
   {
     name: 'Starter',
-    subtitle: 'Perfect for first-time coders',
-    price: '$19',
+    subtitle: '1 session/week · 5–20 students',
+    price: '$75',
     period: '/month',
-    annualNote: '$190/year — save $38',
+    annualNote: '40% discount applied (was $125)',
     color: 'from-teal-400 to-emerald-500',
     popular: false,
     features: [
-      '4 group sessions per month',
-      'Explorer & Builder levels (ages 7–12)',
+      '1 group session per week (4/month)',
+      '5–20 students per class',
+      'Explorer & Builder levels (ages 5–12)',
       'Starter project portfolio',
-      'Community Slack group access',
+      'Community access',
       'Digital completion certificate',
-      'Monthly parent progress report',
+      'Parent progress summary',
     ],
     cta: 'Get Started',
   },
   {
     name: 'Standard',
-    subtitle: 'Chosen by 70% of our learners',
-    price: '$39',
+    subtitle: '2 sessions/week · 4–10 students',
+    price: '$200',
     period: '/month',
-    annualNote: '$390/year — save $78',
+    annualNote: '30% discount applied (was $285)',
     color: 'from-brand-500 to-purple-600',
     popular: true,
     features: [
-      '8 sessions per month',
+      '2 sessions per week (8/month)',
+      '4–10 students per class',
       'All core levels (Explorer–Creator)',
       'Advanced project portfolio',
-      '1 mentor check-in per month',
+      'Monthly parent progress report',
       'Priority support (24hr response)',
-      'Parent dashboard access',
       'LinkedIn-ready certificate & badge',
       'Peer learning community access',
     ],
     cta: 'Enroll Now',
   },
   {
-    name: 'AI & Product',
-    subtitle: 'For the AI-ready generation',
-    price: '$65',
-    period: '/month',
-    annualNote: '$650/year — save $130',
-    color: 'from-purple-500 to-indigo-600',
+    name: 'Code Prodigy',
+    subtitle: 'Qualification-based · Elite',
+    price: 'By qualification',
+    period: '',
+    annualNote: 'Scholarship & sponsorship available',
+    color: 'from-amber-400 to-orange-500',
     popular: false,
-    badge: 'NEW',
+    badge: 'ELITE',
     features: [
-      '10 sessions per month',
-      'AI Developer track (Level 4)',
-      'Product Builder track (Level 5)',
-      'GPT API credits included',
-      'Weekly mentor office hours',
-      'Deployed AI project showcase',
-      'Startup pitch coaching session',
-      'Certificate + GitHub portfolio',
+      'Qualification-based entry (assessment required)',
+      'Lead instructor mentorship',
+      'Hackathons & real-world project showcases',
+      'Industry mentor pairing',
+      'Scholarship benefits & opportunities',
+      'Priority placement network',
+      'Certificate + portfolio showcase',
+      'Career & university coaching',
     ],
-    cta: 'Join AI Track',
+    cta: 'Apply Now',
   },
   {
     name: 'Premium 1-on-1',
-    subtitle: 'Maximum growth, personalized',
-    price: '$120',
+    subtitle: 'Personalized · Dedicated tutor',
+    price: '$350',
     period: '/month',
-    annualNote: '$1,200/year — save $240',
-    color: 'from-amber-400 to-orange-500',
+    annualNote: '30% discount applied (was $500)',
+    color: 'from-purple-500 to-indigo-600',
     popular: false,
     features: [
-      '8 private 1-on-1 sessions',
-      'All 5 levels including Code Prodigy',
+      '8 private 1-on-1 sessions/month',
+      'All 5 levels including AI tracks',
       'Fully bespoke learning plan',
-      'Weekly 1-on-1 mentor calls',
-      'Real-world collab projects',
+      'Dedicated tutor + weekly mentor calls',
+      'Real-world collaboration projects',
       'Career/scholarship coaching',
-      'Priority placement network access',
       'Full family dashboard',
+      'Priority support',
     ],
     cta: 'Apply Now',
   },
@@ -207,6 +208,24 @@ export default function PricingPage() {
               </motion.div>
             ))}
           </div>
+
+          {/* Sibling Discount */}
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+            className="mt-10 rounded-2xl bg-gradient-to-r from-brand-50 via-purple-50 to-pink-50 border border-brand-100 p-6 sm:p-8">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-500 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-md">
+                <Users className="w-6 h-6 text-white" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-extrabold text-slate-900 text-[16px] mb-1" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                  Sibling Discount
+                </h3>
+                <p className="text-slate-500 text-sm leading-relaxed">
+                  Enrolling multiple children? Save more with our sibling discount: <strong className="text-slate-700">10% off</strong> the 2nd child, <strong className="text-slate-700">15% off</strong> the 3rd child. Contact us for 4+ children.
+                </p>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 

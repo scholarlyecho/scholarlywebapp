@@ -28,11 +28,12 @@ const team = [
 ];
 
 const milestones = [
-  { year: '2022', event: 'ScholarlyEcho founded with 10 students in Lagos', color: 'bg-teal-500' },
-  { year: '2023', event: '100 students enrolled · Edu Spotlight Podcast launched', color: 'bg-brand-500' },
-  { year: '2024', event: '500 students · 10 countries · Edutainment products launched', color: 'bg-amber-500' },
-  { year: '2025', event: '1,000 students · Thesis Spotlight series · Maryland HQ opened', color: 'bg-purple-500' },
-  { year: '2026', event: 'AI tracks launched · 20+ countries · Global Summit inaugural edition', color: 'bg-emerald-500' },
+  { year: '2014', event: 'Google CS-First Coding Instructor — began teaching coding to youth', color: 'bg-teal-500' },
+  { year: '2016–18', event: 'African Code Week Instructor — 3 consecutive years of coding workshops', color: 'bg-blue-500' },
+  { year: '2019', event: 'WAAW Foundation Coding Facilitator Award — recognized for impact', color: 'bg-amber-500' },
+  { year: '2022', event: 'ScholarlyEcho founded — 12+ years of coding instruction experience', color: 'bg-brand-500' },
+  { year: '2025', event: 'Summer of Code 2025 · AI Track launched · Spotlight series launched', color: 'bg-purple-500' },
+  { year: '2026', event: 'Build for Ramadan · Summer of Code 2026 · 20+ countries · Instructors with PhD & MSc in CS & AI', color: 'bg-emerald-500' },
 ];
 
 export default function AboutPage() {

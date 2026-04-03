@@ -19,7 +19,7 @@ const programs = [
     desc: 'Enroll in our 5-level Coders Ladder — from Scratch to building real SaaS products.',
     color: 'from-brand-500 to-purple-600',
     light: 'bg-brand-50 text-brand-600 border-brand-100',
-    fields: ['name', 'email', 'phone', 'age', 'country', 'level'],
+    fields: ['name', 'email', 'phone', 'dob', 'country', 'level', 'siblings'],
   },
   {
     id: 'inspire-media',
@@ -29,7 +29,7 @@ const programs = [
     desc: 'Apply to be featured on the Edu Spotlight Podcast or Thesis Spotlight series.',
     color: 'from-amber-400 to-orange-500',
     light: 'bg-amber-50 text-amber-600 border-amber-100',
-    fields: ['name', 'email', 'topic', 'bio'],
+    fields: ['name', 'email', 'phone', 'topic', 'bio'],
   },
   {
     id: 'ai-assessment',
@@ -39,7 +39,7 @@ const programs = [
     desc: 'Take a free assessment to determine your readiness for our AI Developer or Product Builder tracks.',
     color: 'from-pink-500 to-rose-500',
     light: 'bg-rose-50 text-rose-600 border-rose-100',
-    fields: ['name', 'email', 'age', 'experience'],
+    fields: ['name', 'email', 'phone', 'dob', 'experience'],
   },
   {
     id: 'code-prodigy',
@@ -49,17 +49,18 @@ const programs = [
     desc: 'Apply to our elite program for exceptional learners — hackathons, industry mentors, and real projects.',
     color: 'from-amber-400 to-orange-500',
     light: 'bg-amber-50 text-amber-700 border-amber-100',
-    fields: ['name', 'email', 'age', 'country', 'portfolio', 'motivation'],
+    fields: ['name', 'email', 'phone', 'dob', 'country', 'portfolio', 'motivation'],
   },
 ];
 
 const fieldConfig: Record<string, { label: string; type: string; placeholder: string; icon: React.ElementType; rows?: number }> = {
   name: { label: 'Full Name', type: 'text', placeholder: 'Your full name', icon: User },
   email: { label: 'Email Address', type: 'email', placeholder: 'your@email.com', icon: Mail },
-  phone: { label: 'Phone (optional)', type: 'tel', placeholder: '+1 234 567 8900', icon: Phone },
-  age: { label: 'Age', type: 'number', placeholder: 'e.g. 14', icon: GraduationCap },
+  phone: { label: 'Phone Number', type: 'tel', placeholder: '+1 234 567 8900', icon: Phone },
+  dob: { label: 'Date of Birth', type: 'date', placeholder: '', icon: GraduationCap },
   country: { label: 'Country', type: 'text', placeholder: 'e.g. Nigeria, USA, UK', icon: MapPin },
   level: { label: 'Preferred Level', type: 'select', placeholder: '', icon: GraduationCap },
+  siblings: { label: 'Number of Siblings Enrolling', type: 'select', placeholder: '', icon: User },
   topic: { label: 'Topic / Research Area', type: 'text', placeholder: 'e.g. AI in Education, Public Health', icon: Sparkles },
   bio: { label: 'Short Bio / Background', type: 'textarea', placeholder: 'Tell us about yourself and your work...', icon: User, rows: 3 },
   experience: { label: 'Coding Experience', type: 'select', placeholder: '', icon: Brain },
@@ -67,7 +68,18 @@ const fieldConfig: Record<string, { label: string; type: string; placeholder: st
   motivation: { label: 'Why Code Prodigy?', type: 'textarea', placeholder: 'Why do you want to join the elite program? What are you building?', icon: Sparkles, rows: 4 },
 };
 
-const levelOptions = ['Explorer (Ages 7–10)', 'Builder (Ages 10–13)', 'Creator (Ages 13–16)', 'AI Developer (Ages 14+)', 'Product Builder (Ages 16+)'];
+const siblingOptions = ['Just me (no siblings)', '1 sibling (10% off 2nd child)', '2 siblings (10% + 15% off)', '3+ siblings (contact us)'];
+
+function calculateAge(dob: string): number {
+  const birth = new Date(dob);
+  const today = new Date();
+  let age = today.getFullYear() - birth.getFullYear();
+  const m = today.getMonth() - birth.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+  return age;
+}
+
+const levelOptions = ['Explorer (Ages 5–10)', 'Builder (Ages 10–13)', 'Creator (Ages 13–16)', 'AI Developer (Ages 14+)', 'Product Builder (Ages 16+)'];
 const experienceOptions = ['Complete beginner', 'Basic HTML/CSS', 'Comfortable with Python/JS', 'Built apps/projects before', 'Professional developer'];
 
 export default function EnrollPage() {
@@ -80,7 +92,9 @@ export default function EnrollPage() {
     e.preventDefault();
     if (!active) return;
     setStatus('loading');
-    const result = await submitForm('enrollment', { program: active, ...formData });
+    const data: Record<string, string> = { program: active, ...formData };
+    if (data.dob) { data.age = String(calculateAge(data.dob)); }
+    const result = await submitForm('enrollment', data);
     if (result.success) {
       setStatus('success');
       showToast('success', 'Application submitted! We\'ll be in touch within 48 hours.');
@@ -224,7 +238,7 @@ export default function EnrollPage() {
                                   onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
                                   className="w-full px-4 py-3.5 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-brand-400 transition-colors text-slate-700 text-sm bg-white">
                                   <option value="">Select...</option>
-                                  {(key === 'level' ? levelOptions : experienceOptions).map((opt) => (
+                                  {(key === 'level' ? levelOptions : key === 'siblings' ? siblingOptions : experienceOptions).map((opt) => (
                                     <option key={opt} value={opt}>{opt}</option>
                                   ))}
                                 </select>

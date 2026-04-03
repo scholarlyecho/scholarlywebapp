@@ -22,8 +22,8 @@ const inquiryTypes = [
 ];
 
 const offices = [
-  { city: 'Maryland, USA', flag: '🇺🇸', role: 'Global HQ', email: 'hello@scholarlyecho.com', type: 'Headquarters' },
-  { city: 'Abuja, Nigeria', flag: '🇳🇬', role: 'Africa Operations Hub', email: 'africa@scholarlyecho.com', type: 'Regional Office' },
+  { city: 'Maryland, USA', flag: '🇺🇸', role: 'Global HQ', email: 'scholarlyechos@gmail.com', type: 'Headquarters' },
+  { city: 'Abuja, Nigeria', flag: '🇳🇬', role: 'Africa Operations Hub', email: 'scholarlyechos@gmail.com', type: 'Regional Office' },
 ];
 
 export default function ContactPage() {
@@ -109,7 +109,7 @@ export default function ContactPage() {
 
                 <div className="space-y-4">
                   {[
-                    { icon: Mail, label: 'General', value: 'hello@scholarlyecho.com', href: 'mailto:hello@scholarlyecho.com', color: 'bg-brand-100 text-brand-600' },
+                    { icon: Mail, label: 'General', value: 'scholarlyechos@gmail.com', href: 'mailto:scholarlyechos@gmail.com', color: 'bg-brand-100 text-brand-600' },
                     { icon: MapPin, label: 'Headquarters', value: 'Maryland, United States', href: '#', color: 'bg-amber-100 text-amber-600' },
                     { icon: Globe, label: 'Operations', value: 'Online-first · Global reach', href: '#', color: 'bg-emerald-100 text-emerald-600' },
                   ].map(({ icon: Icon, label, value, href, color }) => (
