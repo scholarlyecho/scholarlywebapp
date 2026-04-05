@@ -210,8 +210,8 @@ export default function HomePage() {
 
                 <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.25 }}
                   className="text-[1rem] sm:text-[1.05rem] text-white/50 leading-[1.8] mb-10 max-w-[480px]">
-                  ScholarlyEcho equips the next generation with AI-ready skills, authentic stories of achievement,
-                  and gamified educational experiences — transforming youth from every corner of the world.
+                  Coding is the 4th literacy. ScholarlyEcho teaches young people to think critically,
+                  solve real-world problems, and build with technology — developing life skills that go far beyond the screen.
                 </motion.p>
 
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.35 }}
@@ -367,6 +367,66 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ═══ 4TH LITERACY ═══ */}
+      <section className="py-16 sm:py-20 md:py-24 bg-white relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.03]"
+          style={{ background: 'radial-gradient(circle, #6e42ff 0%, transparent 70%)' }} />
+        <div className="max-w-5xl mx-auto px-5 sm:px-8 lg:px-10 relative">
+          <SectionWrapper className="text-center mb-12">
+            <div className="section-tag mx-auto mb-5">
+              <Code2 className="w-3.5 h-3.5" /> The 4th Literacy
+            </div>
+            <h2 className="section-heading mb-5 max-w-3xl mx-auto">
+              Coding &amp; AI: the <span className="gradient-text-animated">4th Literacy</span>
+            </h2>
+            <p className="section-subheading mx-auto">
+              Reading, writing, and arithmetic shaped the last century. Coding and AI are the foundational skills shaping this one — the language of technology, creativity, and solving problems that matter.
+            </p>
+          </SectionWrapper>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { n: '1st', title: 'Reading', desc: 'Understanding language to make sense of the world and absorb knowledge.', icon: BookOpen, color: 'from-blue-500 to-brand-500', active: false },
+              { n: '2nd', title: 'Writing', desc: 'Creating and communicating ideas that shape thought and inspire action.', icon: Sparkles, color: 'from-emerald-500 to-teal-600', active: false },
+              { n: '3rd', title: 'Arithmetic', desc: 'Numbers, logic, and reasoning — the foundation of analytical thinking.', icon: BarChart3, color: 'from-amber-500 to-orange-500', active: false },
+              { n: '4th', title: 'Coding & AI', desc: 'The language for navigating and shaping the digital world — coding and AI foster creativity, logic, critical thinking, and real-world problem-solving.', icon: Code2, color: 'from-brand-500 to-purple-600', active: true },
+            ].map(({ n, title, desc, icon: Icon, color, active }, i) => (
+              <motion.div key={title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className={`rounded-2xl p-5 border transition-all duration-500 relative overflow-hidden group ${
+                  active
+                    ? 'bg-gradient-to-br from-brand-500 to-purple-600 border-transparent text-white shadow-[0_8px_32px_rgba(110,66,255,0.25)]'
+                    : 'bg-white border-slate-100 hover:border-slate-200 hover:shadow-md'
+                }`}>
+                {active && (
+                  <motion.div className="absolute inset-0 opacity-20"
+                    animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
+                    transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+                    style={{ backgroundImage: 'radial-gradient(circle at 30% 50%, rgba(255,255,255,0.4) 0%, transparent 60%)', backgroundSize: '200% 200%' }} />
+                )}
+                <div className="relative z-10">
+                  <div className={`text-[11px] font-extrabold uppercase tracking-[0.15em] mb-3 ${active ? 'text-white/60' : 'text-slate-400'}`}>
+                    {n} Literacy
+                  </div>
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 ${
+                    active ? 'bg-white/20' : `bg-gradient-to-br ${color}`
+                  } group-hover:scale-110 transition-transform duration-300`}>
+                    <Icon className={`w-5 h-5 ${active ? 'text-white' : 'text-white'}`} />
+                  </div>
+                  <h3 className={`font-extrabold text-lg mb-2 ${active ? 'text-white' : 'text-slate-900'}`} style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                    {title}
+                  </h3>
+                  <p className={`text-[13px] leading-relaxed ${active ? 'text-white/70' : 'text-slate-500'}`}>{desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ═══ BRANCH CARDS ═══ */}
       <section className="py-16 sm:py-20 md:py-28 mesh-bg relative">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
@@ -388,7 +448,7 @@ export default function HomePage() {
               icon={BookOpen}
               title="Learning Hub"
               subtitle="Learn"
-              description="Project-based coding and AI education from ages 5 to 30+. Progress through our 5-level Coders Ladder — from Scratch &amp; App Inventor to building real AI-powered products."
+              description="Project-based coding that builds critical thinking, problem-solving, and creativity. Progress through our competency-based Coders Ladder — from visual coding to launching AI-powered products. Students are prepared for international coding competitions."
               color="text-brand-600"
               gradient="from-brand-500 to-purple-600"
               href="/learning-hub"
@@ -453,9 +513,9 @@ export default function HomePage() {
                 Teaching Tomorrow&apos;s Skills. <span className="gradient-text">Today.</span>
               </h2>
               <p className="text-slate-500 leading-relaxed mb-7">
-                The world&apos;s most in-demand skills are changing fast. We&apos;ve built Africa&apos;s most comprehensive
-                AI education pathway for youth — from understanding how AI works, to building AI-powered
-                products that solve real problems.
+                Coding teaches more than syntax — it builds critical thinking, logical reasoning, and the ability to decompose complex problems.
+                Our competency-based AI pathway takes learners from understanding how AI works to building products that solve real-world challenges.
+                Students develop life skills that transfer to any career.
               </p>
               <div className="grid sm:grid-cols-2 gap-4 mb-8">
                 {[
@@ -492,18 +552,18 @@ export default function HomePage() {
                       <Brain className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <div className="text-white font-bold">The Complete Learning Path</div>
-                      <div className="text-white/40 text-xs">5 levels · AI-first design</div>
+                      <div className="text-white font-bold">The Competency-Based Path</div>
+                      <div className="text-white/40 text-xs">5 levels · Skill-based progression</div>
                     </div>
                   </div>
 
                   <div className="space-y-3">
                     {[
-                      { n: 1, name: 'Explorer', age: 'Ages 5–10', color: 'from-teal-400 to-emerald-500', tag: 'Scratch · Blockly' },
-                      { n: 2, name: 'Builder', age: 'Ages 10–13', color: 'from-brand-400 to-blue-500', tag: 'App Inventor · Python' },
-                      { n: 3, name: 'Creator', age: 'Ages 13–16', color: 'from-violet-400 to-purple-600', tag: 'JS · React · APIs' },
-                      { n: 4, name: 'AI Developer', age: 'Ages 14+', color: 'from-pink-500 to-rose-500', tag: 'ML · GPT · Computer Vision' },
-                      { n: 5, name: 'Product Builder', age: 'Ages 16+', color: 'from-emerald-500 to-teal-600', tag: 'SaaS · MVP · Launch' },
+                      { n: 1, name: 'Explorer', age: 'Beginner', color: 'from-teal-400 to-emerald-500', tag: 'Scratch · Blockly' },
+                      { n: 2, name: 'Builder', age: 'Intermediate', color: 'from-brand-400 to-blue-500', tag: 'App Inventor · Python' },
+                      { n: 3, name: 'Creator', age: 'Advanced', color: 'from-violet-400 to-purple-600', tag: 'JS · React · APIs' },
+                      { n: 4, name: 'AI Developer', age: 'Advanced+', color: 'from-pink-500 to-rose-500', tag: 'ML · GPT · Vision' },
+                      { n: 5, name: 'Product Builder', age: 'Expert', color: 'from-emerald-500 to-teal-600', tag: 'SaaS · MVP · Launch' },
                     ].map(({ n, name, age, color, tag }, i) => (
                       <motion.div key={name}
                         initial={{ opacity: 0, x: 24 }}
@@ -554,19 +614,19 @@ export default function HomePage() {
               <Lightbulb className="w-3.5 h-3.5" /> The ScholarlyEcho Difference
             </div>
             <h2 className="section-heading mb-5 max-w-3xl mx-auto">
-              Not Just Education — <span className="gradient-text">A Movement</span>
+              More Than Coding — <span className="gradient-text">Life Skills</span>
             </h2>
             <p className="section-subheading mx-auto">
-              Traditional education is slow. We move at the speed of the digital economy — with the heart of a community.
+              Coding develops critical thinking, logical reasoning, creativity, and the ability to solve complex problems — skills that transfer to every career and life challenge.
             </p>
           </SectionWrapper>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
-              { icon: Brain, title: 'AI-First Curriculum', desc: 'Every learner develops AI literacy and the ability to build with AI tools — a non-negotiable for the modern world.', color: 'bg-purple-50 text-purple-600', gradient: 'from-purple-500 to-indigo-600' },
-              { icon: Globe, title: 'Globally Connected', desc: 'Learners, mentors, and partners from 20+ countries. Your network grows as fast as your skills.', color: 'bg-blue-50 text-blue-600', gradient: 'from-blue-500 to-brand-600' },
-              { icon: Heart, title: 'Community-Rooted', desc: 'Globally minded. Our context, stories, and pricing reflect the communities we serve.', color: 'bg-rose-50 text-rose-600', gradient: 'from-rose-500 to-pink-600' },
-              { icon: BarChart3, title: 'Measurable Outcomes', desc: 'We track and publish impact data — projects built, careers launched, research implemented.', color: 'bg-emerald-50 text-emerald-600', gradient: 'from-emerald-500 to-teal-600' },
+              { icon: Lightbulb, title: 'Critical Thinking', desc: 'Every project requires breaking down complex problems into smaller steps — a skill that transfers to academics, careers, and everyday decisions.', color: 'bg-purple-50 text-purple-600', gradient: 'from-purple-500 to-indigo-600' },
+              { icon: Brain, title: 'Problem Solving', desc: 'Debugging code is training the brain to persist, analyze, and find solutions. These are the life skills employers value most.', color: 'bg-blue-50 text-blue-600', gradient: 'from-blue-500 to-brand-600' },
+              { icon: Trophy, title: 'Competition Ready', desc: 'Students are prepared for internationally recognized coding competitions — building confidence, resilience, and a competitive edge.', color: 'bg-amber-50 text-amber-600', gradient: 'from-amber-500 to-orange-500' },
+              { icon: BarChart3, title: 'Measurable Growth', desc: 'Competency-based progression. Every level ends with a real project that demonstrates mastery — not just time spent in a seat.', color: 'bg-emerald-50 text-emerald-600', gradient: 'from-emerald-500 to-teal-600' },
             ].map(({ icon: Icon, title, desc, color, gradient }, i) => (
               <motion.div key={title}
                 initial={{ opacity: 0, y: 28 }}

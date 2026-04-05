@@ -19,7 +19,7 @@ const programs = [
     desc: 'Enroll in our 5-level Coders Ladder — from Scratch to building real SaaS products.',
     color: 'from-brand-500 to-purple-600',
     light: 'bg-brand-50 text-brand-600 border-brand-100',
-    fields: ['name', 'email', 'phone', 'dob', 'country', 'plan', 'level', 'priorExperience', 'siblings'],
+    fields: ['name', 'email', 'phone', 'dob', 'country', 'state', 'plan', 'level', 'priorExperience', 'siblings'],
   },
   {
     id: 'inspire-media',
@@ -49,7 +49,7 @@ const programs = [
     desc: 'Apply to our elite program for exceptional learners — hackathons, industry mentors, and real projects.',
     color: 'from-amber-400 to-orange-500',
     light: 'bg-amber-50 text-amber-700 border-amber-100',
-    fields: ['name', 'email', 'phone', 'dob', 'country', 'priorExperience', 'portfolio', 'motivation'],
+    fields: ['name', 'email', 'phone', 'dob', 'country', 'state', 'priorExperience', 'portfolio', 'motivation'],
   },
 ];
 
@@ -58,7 +58,8 @@ const fieldConfig: Record<string, { label: string; type: string; placeholder: st
   email: { label: 'Email Address', type: 'email', placeholder: 'your@email.com', icon: Mail },
   phone: { label: 'Phone Number', type: 'tel', placeholder: '+1 234 567 8900', icon: Phone },
   dob: { label: 'Date of Birth', type: 'date', placeholder: '', icon: GraduationCap },
-  country: { label: 'Country', type: 'text', placeholder: 'e.g. Nigeria, USA, UK', icon: MapPin },
+  country: { label: 'Country', type: 'countrySelect', placeholder: 'Select country', icon: MapPin },
+  state: { label: 'State / Region', type: 'stateSelect', placeholder: 'e.g. Lagos, California', icon: MapPin },
   plan: { label: 'Pricing Plan', type: 'select', placeholder: '', icon: Sparkles },
   level: { label: 'Preferred Level', type: 'select', placeholder: '', icon: GraduationCap },
   priorExperience: { label: 'Prior Coding Experience', type: 'select', placeholder: '', icon: Brain },

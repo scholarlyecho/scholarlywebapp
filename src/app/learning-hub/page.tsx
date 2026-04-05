@@ -13,49 +13,49 @@ import AnimatedCounter from '@/components/ui/AnimatedCounter';
 
 const levels = [
   {
-    id: 1, name: 'Explorer', age: 'Ages 5–10',
+    id: 1, name: 'Explorer', age: 'Beginner · Ages 5+',
     color: 'from-teal-400 to-emerald-500',
     tag: 'Visual Coding',
     tools: ['Scratch 3.0', 'code.org Blockly', 'MIT Scratch Jr', 'Tynker'],
-    skills: ['Drag-and-drop logic & sequencing', 'Loops, events & conditionals', 'Interactive story creation', 'Basic game design'],
+    skills: ['Logical thinking & sequencing', 'Problem decomposition with loops & conditionals', 'Creative storytelling through code', 'Intro to computational thinking'],
     projects: 'Interactive stories, animated games, logic puzzles',
     icon: Code2,
   },
   {
-    id: 2, name: 'Builder', age: 'Ages 10–13',
+    id: 2, name: 'Builder', age: 'Intermediate · Ages 10+',
     color: 'from-brand-400 to-blue-500',
     tag: 'Apps & Web Basics',
     tools: ['MIT App Inventor', 'Makeblock mBlock', 'Python 3', 'HTML & CSS'],
-    skills: ['Build real mobile apps (no native code)', 'Python fundamentals & scripting', 'Intro to web: HTML, CSS layout', 'Micro:bit & basic hardware projects'],
-    projects: 'Android apps, personal websites, beginner Python scripts',
+    skills: ['Build real mobile apps (App Inventor)', 'Python fundamentals & algorithmic thinking', 'Web development: HTML, CSS layout', 'Hardware projects with Micro:bit'],
+    projects: 'Android apps, personal websites, Python scripts',
     icon: Code2,
   },
   {
-    id: 3, name: 'Creator', age: 'Ages 13–16',
+    id: 3, name: 'Creator', age: 'Advanced · Ages 13+',
     color: 'from-violet-400 to-purple-600',
     tag: 'JavaScript & React',
     tools: ['JavaScript ES6+', 'React.js', 'Node.js basics', 'GitHub', 'VS Code'],
-    skills: ['DOM manipulation & event-driven programming', 'React components, state & hooks', 'REST API consumption', 'Version control with Git & GitHub'],
-    projects: 'Interactive web apps, portfolios, browser games, API dashboards',
+    skills: ['Full-stack web development', 'React components, state & hooks', 'API design & consumption', 'Version control & collaborative coding'],
+    projects: 'Interactive web apps, portfolios, API dashboards',
     icon: Code2,
   },
   {
-    id: 4, name: 'AI Developer', age: 'Ages 14+',
+    id: 4, name: 'AI Developer', age: 'Advanced · Ages 14+',
     color: 'from-pink-500 to-rose-500',
     tag: 'ML · GPT · Vision',
     tools: ['Python (NumPy, Pandas)', 'OpenAI GPT APIs', 'Google Teachable Machine', 'OpenCV', 'Jupyter Notebooks'],
-    skills: ['Machine learning concepts & model training', 'Prompt engineering & LLM integration', 'Computer vision & image recognition', 'NLP projects & AI product design'],
-    projects: 'AI chatbots, image classifiers, GPT-powered web apps',
+    skills: ['Machine learning & model training', 'Prompt engineering & LLM integration', 'Computer vision & image recognition', 'AI product design & deployment'],
+    projects: 'AI chatbots, image classifiers, GPT-powered apps',
     icon: Brain,
     isNew: true,
   },
   {
-    id: 5, name: 'Product Builder', age: 'Ages 16+',
+    id: 5, name: 'Product Builder', age: 'Expert · Ages 16+',
     color: 'from-emerald-500 to-teal-600',
     tag: 'SaaS · MVP · Launch',
     tools: ['Next.js', 'Supabase / PostgreSQL', 'Stripe API', 'Vercel', 'Figma'],
-    skills: ['SaaS architecture & full-stack development', 'MVP methodology & sprint planning', 'User acquisition & growth basics', 'Pitch decks, demo days & fundraising'],
-    projects: 'Fully launched SaaS products with real users and revenue',
+    skills: ['SaaS architecture & full-stack development', 'MVP methodology & sprint planning', 'User acquisition & growth strategy', 'Pitch decks, demo days & fundraising'],
+    projects: 'Fully launched SaaS products with real users',
     icon: Rocket,
     isNew: true,
   },
@@ -69,7 +69,7 @@ const formats = [
 ];
 
 const faqs = [
-  { q: 'What age can my child start?', a: 'We welcome learners from age 5 (Explorer level — Scratch & visual coding) all the way to young adults and university students. Every learner is assessed first to determine the best starting level — this is always free.' },
+  { q: 'What age can my child start?', a: 'We welcome learners from age 5. However, our levels are competency-based, not age-based — a talented 10-year-old can be in the Creator level if they demonstrate the skills. Every learner is assessed first to determine the best starting level — this is always free.' },
   { q: 'Do you offer payment plans?', a: 'Yes! We offer monthly subscriptions, term-based packages, and installment plans in USD. Scholarship and need-based discounts are available for qualifying learners globally.' },
   { q: 'Are classes online or physical?', a: 'Both! We offer fully online sessions via Zoom, and in-person classes at partner locations. We are online-first with a global reach — students from 20+ countries are enrolled.' },
   { q: 'What do students actually build?', a: 'Real projects — websites, apps, AI tools, and SaaS products. Every level ends with portfolio-ready work. AI Builder students have deployed AI apps; Product Builder students have launched live products.' },
@@ -102,7 +102,7 @@ export default function LearningHubPage() {
             <div>
               <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-500/15 border border-brand-400/25 text-brand-300 text-[13px] font-semibold mb-6">
-                <BookOpen className="w-3.5 h-3.5" /> Learning Hub · Project-Based · 5 Levels · AI-Ready
+                <BookOpen className="w-3.5 h-3.5" /> Learning Hub · Competency-Based · Project-Driven · AI-Ready
               </motion.div>
 
               <motion.h1 initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
@@ -115,8 +115,7 @@ export default function LearningHubPage() {
 
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
                 className="text-white/45 text-[1.05rem] leading-[1.75] mb-8 max-w-[480px]">
-                Project-based learning across five structured levels — from Scratch & MIT App Inventor to building AI-powered products and launching real SaaS startups.
-                Every learner builds real projects. World-class curriculum. Global mentors.
+                Coding and AI are the 4th literacy — and the ultimate life skill. Our competency-based levels build critical thinking, problem-solving, and creativity through real projects. Students advance by demonstrated skill, not age, and are prepared for international coding competitions.
               </motion.p>
 
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
