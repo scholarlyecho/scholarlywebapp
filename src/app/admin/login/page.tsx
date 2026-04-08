@@ -109,8 +109,8 @@ export default function AdminLoginPage() {
                   onChange={(e) => setPassword(e.target.value)} placeholder="••••••••••" required
                   className="w-full pl-11 pr-12 py-3.5 rounded-xl bg-white/[0.06] border border-white/[0.06] text-white placeholder-white/20 text-sm focus:outline-none focus:border-brand-500/50 focus:bg-white/[0.08] transition-all duration-200" />
                 <button type="button" onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/25 hover:text-white/50 transition-colors">
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors">
+                  {showPassword ? <EyeOff className="w-4.5 h-4.5" /> : <Eye className="w-4.5 h-4.5" />}
                 </button>
               </div>
             </div>
