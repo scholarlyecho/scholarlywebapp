@@ -2,13 +2,22 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Anyone can create submissions (form submissions from website)
     match /submissions/{docId} {
       allow create: if true;
       allow read, update, delete: if request.auth != null;
     }
-
-    // Block everything else
+    match /programs/{docId} {
+      allow read, write: if request.auth != null;
+    }
+    match /admin_users/{docId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null;
+    }
+    match /office_hours/{docId} {
+      allow read: if true;
+      allow update: if true;
+      allow create, delete: if request.auth != null;
+    }
     match /{document=**} {
       allow read, write: if false;
     }
