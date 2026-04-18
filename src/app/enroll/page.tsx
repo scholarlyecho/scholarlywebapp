@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { submitForm } from '@/lib/formSubmit';
 import { useToast } from '@/components/Toast';
+import { COUNTRIES, US_STATES, US_COUNTRY, OTHER_OPTION } from '@/lib/locations';
 
 const programs = [
   {
@@ -84,7 +85,7 @@ function calculateAge(dob: string): number {
   return age;
 }
 
-const levelOptions = ['Explorer (Ages 5–10)', 'Builder (Ages 10–13)', 'Creator (Ages 13–16)', 'AI Developer (Ages 14+)', 'Product Builder (Ages 16+)'];
+const levelOptions = ['Explorer (Ages 5+)', 'Builder (Ages 10+)', 'Creator (Ages 13+)', 'AI Developer (Ages 14+)', 'Product Builder (Ages 16+)'];
 const experienceOptions = ['Complete beginner', 'Basic HTML/CSS', 'Comfortable with Python/JS', 'Built apps/projects before', 'Professional developer'];
 
 export default function EnrollPage() {
@@ -97,7 +98,9 @@ export default function EnrollPage() {
     e.preventDefault();
     if (!active) return;
     setStatus('loading');
-    const data: Record<string, string> = { program: active, ...formData };
+    const { countrySelect, stateSelect, countryOther, stateOther, ...clean } = formData;
+    void countrySelect; void stateSelect; void countryOther; void stateOther;
+    const data: Record<string, string> = { program: active, ...clean };
     if (data.dob) { data.age = String(calculateAge(data.dob)); }
     const result = await submitForm('enrollment', data);
     if (result.success) {
@@ -236,29 +239,87 @@ export default function EnrollPage() {
                           // Country + State side by side
                           if (key === 'country' && program.fields.includes('state')) {
                             const stateField = fieldConfig['state'];
+                            const countrySel = formData.countrySelect || '';
+                            const isCountryOther = countrySel === OTHER_OPTION;
+                            const isUS = countrySel === US_COUNTRY;
+                            const stateSel = formData.stateSelect || '';
+                            const isStateOther = stateSel === OTHER_OPTION;
                             return (
                               <motion.div key="country-state" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
-                                className="grid grid-cols-2 gap-3">
-                                <div>
-                                  <label className="block text-[13px] font-bold text-slate-700 mb-1.5">{field.label}</label>
-                                  <div className="relative">
-                                    <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" />
-                                    <input type="text" value={formData.country || ''} required
-                                      onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-                                      placeholder={field.placeholder}
-                                      className="w-full pl-11 pr-4 py-3.5 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-brand-400 transition-colors text-slate-800 placeholder:text-slate-300 text-sm" />
+                                className="space-y-3">
+                                <div className="grid grid-cols-2 gap-3">
+                                  <div>
+                                    <label className="block text-[13px] font-bold text-slate-700 mb-1.5">{field.label}</label>
+                                    <div className="relative">
+                                      <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300 pointer-events-none" />
+                                      <select value={countrySel} required
+                                        onChange={(e) => {
+                                          const v = e.target.value;
+                                          setFormData({
+                                            ...formData,
+                                            countrySelect: v,
+                                            country: v === OTHER_OPTION ? (formData.countryOther || '') : v,
+                                            stateSelect: '',
+                                            state: '',
+                                            stateOther: '',
+                                          });
+                                        }}
+                                        className="w-full pl-11 pr-4 py-3.5 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-brand-400 transition-colors text-slate-700 text-sm bg-white appearance-none">
+                                        <option value="">Select country...</option>
+                                        {COUNTRIES.map((c) => (<option key={c} value={c}>{c}</option>))}
+                                        <option value={OTHER_OPTION}>Other</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <label className="block text-[13px] font-bold text-slate-700 mb-1.5">{stateField.label}</label>
+                                    {isUS ? (
+                                      <div className="relative">
+                                        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300 pointer-events-none" />
+                                        <select value={stateSel} required
+                                          onChange={(e) => {
+                                            const v = e.target.value;
+                                            setFormData({
+                                              ...formData,
+                                              stateSelect: v,
+                                              state: v === OTHER_OPTION ? (formData.stateOther || '') : v,
+                                            });
+                                          }}
+                                          className="w-full pl-11 pr-4 py-3.5 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-brand-400 transition-colors text-slate-700 text-sm bg-white appearance-none">
+                                          <option value="">Select state...</option>
+                                          {US_STATES.map((s) => (<option key={s} value={s}>{s}</option>))}
+                                          <option value={OTHER_OPTION}>Other</option>
+                                        </select>
+                                      </div>
+                                    ) : (
+                                      <div className="relative">
+                                        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" />
+                                        <input type="text" value={formData.state || ''} required
+                                          onChange={(e) => setFormData({ ...formData, state: e.target.value, stateSelect: '', stateOther: e.target.value })}
+                                          placeholder={stateField.placeholder}
+                                          className="w-full pl-11 pr-4 py-3.5 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-brand-400 transition-colors text-slate-800 placeholder:text-slate-300 text-sm" />
+                                      </div>
+                                    )}
                                   </div>
                                 </div>
-                                <div>
-                                  <label className="block text-[13px] font-bold text-slate-700 mb-1.5">{stateField.label}</label>
+                                {isCountryOther && (
                                   <div className="relative">
                                     <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" />
-                                    <input type="text" value={formData.state || ''} required
-                                      onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                                      placeholder={stateField.placeholder}
+                                    <input type="text" value={formData.countryOther || ''} required
+                                      onChange={(e) => setFormData({ ...formData, countryOther: e.target.value, country: e.target.value })}
+                                      placeholder="Enter your country"
                                       className="w-full pl-11 pr-4 py-3.5 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-brand-400 transition-colors text-slate-800 placeholder:text-slate-300 text-sm" />
                                   </div>
-                                </div>
+                                )}
+                                {isUS && isStateOther && (
+                                  <div className="relative">
+                                    <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" />
+                                    <input type="text" value={formData.stateOther || ''} required
+                                      onChange={(e) => setFormData({ ...formData, stateOther: e.target.value, state: e.target.value })}
+                                      placeholder="Enter your state"
+                                      className="w-full pl-11 pr-4 py-3.5 rounded-xl border-2 border-slate-200 focus:outline-none focus:border-brand-400 transition-colors text-slate-800 placeholder:text-slate-300 text-sm" />
+                                  </div>
+                                )}
                               </motion.div>
                             );
                           }
