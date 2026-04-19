@@ -285,6 +285,12 @@ export default function ProgramsPage() {
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-medium text-slate-700 truncate">{s.name || 'No name'}</p>
                             <p className="text-[11px] text-slate-400 truncate">{s.email}</p>
+                            {(s.phone || s.level) && (
+                              <div className="flex flex-wrap items-center gap-1.5 mt-1">
+                                {s.phone && <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[10px] font-semibold">📞 {s.phone}</span>}
+                                {s.level && <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-purple-50 text-purple-600 text-[10px] font-semibold">🎓 {s.level}</span>}
+                              </div>
+                            )}
                           </div>
                           {(() => {
                             const booking = progOH.flatMap((oh) => (oh.bookings || []).filter((b: any) => b.email === s.email).map((b: any) => b.slot || `${b.day} ${b.time}`)).filter(Boolean);
@@ -319,8 +325,8 @@ export default function ProgramsPage() {
                           <span className="text-[10px] font-bold text-emerald-600">{bookings.length} booked</span>
                           <button onClick={() => copyLink(oh.id)} title="Copy link" className="w-6 h-6 rounded flex items-center justify-center text-slate-300 hover:text-brand-500"><Copy className="w-3 h-3" /></button>
                           <a href={`/book?id=${oh.id}`} target="_blank" rel="noopener noreferrer" className="w-6 h-6 rounded flex items-center justify-center text-slate-300 hover:text-brand-500"><ExternalLink className="w-3 h-3" /></a>
-                          {isAdmin && <button onClick={() => startEditOH(oh)} className="w-6 h-6 rounded flex items-center justify-center text-slate-300 hover:text-brand-500 opacity-0 group-hover/oh:opacity-100"><Pencil className="w-3 h-3" /></button>}
-                          {isAdmin && <button onClick={() => deleteOH(oh.id)} className="w-6 h-6 rounded flex items-center justify-center text-slate-300 hover:text-red-500 opacity-0 group-hover/oh:opacity-100"><Trash2 className="w-3 h-3" /></button>}
+                          {isAdmin && <button onClick={() => startEditOH(oh)} title="Edit office hour" className="w-6 h-6 rounded flex items-center justify-center text-slate-400 hover:text-brand-500 hover:bg-brand-50"><Pencil className="w-3 h-3" /></button>}
+                          {isAdmin && <button onClick={() => deleteOH(oh.id)} title="Delete office hour" className="w-6 h-6 rounded flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50"><Trash2 className="w-3 h-3" /></button>}
                         </div>
                         {/* Slot utilization mini-view */}
                         <div className="flex flex-wrap gap-1 mt-1">
