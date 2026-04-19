@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { collection, query, orderBy, onSnapshot, doc, updateDoc, addDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, query, orderBy, onSnapshot, doc, updateDoc, addDoc, deleteDoc, serverTimestamp, arrayRemove } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useRole } from '@/lib/useRole';
 import {
@@ -52,6 +52,14 @@ export default function ProgramsPage() {
   const [ohProgId, setOhProgId] = useState<string | null>(null);
   const [newOH, setNewOH] = useState({ title: 'Instructor Office Hour', days: ['Monday'] as string[], startTime: '09:00', endTime: '11:00', slotMinutes: '30', dateFrom: '', dateTo: '' });
   const [creatingOH, setCreatingOH] = useState(false);
+  const [expandedBookings, setExpandedBookings] = useState<Set<string>>(new Set());
+  const toggleBookings = (ohId: string) => {
+    const n = new Set(expandedBookings); n.has(ohId) ? n.delete(ohId) : n.add(ohId); setExpandedBookings(n);
+  };
+  const deleteBooking = async (ohId: string, booking: any) => {
+    await updateDoc(doc(db, 'office_hours', ohId), { bookings: arrayRemove(booking) });
+    showToast('success', 'Booking removed.');
+  };
 
   useEffect(() => {
     const u1 = onSnapshot(query(collection(db, 'programs'), orderBy('createdAt', 'desc')), (s) => setPrograms(s.docs.map((d) => ({ id: d.id, ...d.data() } as Program))));
@@ -322,7 +330,9 @@ export default function ProgramsPage() {
                             <span className="text-slate-400 text-xs ml-2">{(oh.days || [oh.day]).filter(Boolean).map((d) => d!.slice(0, 3)).join(', ')} · {oh.startTime}–{oh.endTime} · {slots.length} slots</span>
                             {oh.dateFrom && <span className="text-slate-300 text-[10px] ml-2">({oh.dateFrom} → {oh.dateTo || '∞'})</span>}
                           </div>
-                          <span className="text-[10px] font-bold text-emerald-600">{bookings.length} booked</span>
+                          <button onClick={() => toggleBookings(oh.id)} title={expandedBookings.has(oh.id) ? 'Hide bookings' : 'Show bookings'} className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-600 hover:text-emerald-700">
+                            {bookings.length} booked {expandedBookings.has(oh.id) ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                          </button>
                           <button onClick={() => copyLink(oh.id)} title="Copy link" className="w-6 h-6 rounded flex items-center justify-center text-slate-300 hover:text-brand-500"><Copy className="w-3 h-3" /></button>
                           <a href={`/book?id=${oh.id}`} target="_blank" rel="noopener noreferrer" className="w-6 h-6 rounded flex items-center justify-center text-slate-300 hover:text-brand-500"><ExternalLink className="w-3 h-3" /></a>
                           {isAdmin && <button onClick={() => startEditOH(oh)} title="Edit office hour" className="w-6 h-6 rounded flex items-center justify-center text-slate-400 hover:text-brand-500 hover:bg-brand-50"><Pencil className="w-3 h-3" /></button>}
@@ -335,6 +345,32 @@ export default function ProgramsPage() {
                             return <span key={slot} className={`px-1.5 py-0.5 rounded text-[9px] font-semibold ${count > 0 ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-400'}`}>{slot} {count > 0 && `(${count})`}</span>;
                           })}
                         </div>
+                        {/* Admin bookings manager */}
+                        <AnimatePresence>{expandedBookings.has(oh.id) && (
+                          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden mt-2">
+                            {bookings.length === 0 ? (
+                              <p className="text-[11px] text-slate-400 text-center py-3">No bookings yet.</p>
+                            ) : (
+                              <div className="space-y-1 bg-white rounded-lg border border-slate-100 p-2">
+                                {[...bookings].sort((a: any, b: any) => ((a.date || a.day || '') + (a.time || '')).localeCompare((b.date || b.day || '') + (b.time || ''))).map((b: any, bi: number) => (
+                                  <div key={`${b.email || ''}-${b.slot || ''}-${bi}`} className="flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-slate-50 group/bk">
+                                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-[9px] font-bold text-white flex-shrink-0">{((b.name || b.email || '?')[0] || '?').toUpperCase()}</div>
+                                    <div className="flex-1 min-w-0">
+                                      <p className="text-[11px] font-semibold text-slate-700 truncate">{b.name || b.email || 'Unknown'}</p>
+                                      <p className="text-[10px] text-slate-400 truncate">{b.email}</p>
+                                    </div>
+                                    <span className="px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 text-[10px] font-bold border border-emerald-100 whitespace-nowrap">
+                                      {b.date || b.day} · {b.time || b.slot}
+                                    </span>
+                                    {isAdmin && (
+                                      <button onClick={() => deleteBooking(oh.id, b)} title="Remove booking" className="w-6 h-6 rounded flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50"><Trash2 className="w-3 h-3" /></button>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </motion.div>
+                        )}</AnimatePresence>
                       </div>
                     );
                   })}</div>
