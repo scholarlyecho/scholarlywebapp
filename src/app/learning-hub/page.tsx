@@ -1,15 +1,17 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
   BookOpen, Code2, Users, Clock, Award, CheckCircle2,
   ArrowRight, Star, Sparkles, ChevronRight, Brain,
   Monitor, UserCheck, CalendarDays, Zap, Cpu, Layers,
-  Rocket, Globe, Trophy, Target, Play
+  Rocket, Globe, Trophy, Target, Play, Palette, Wand2, GraduationCap, Briefcase
 } from 'lucide-react';
 import SectionWrapper from '@/components/ui/SectionWrapper';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
+import FreeTrialForm, { FreeTrialModal } from '@/components/FreeTrialForm';
 
 const levels = [
   {
@@ -33,10 +35,16 @@ const levels = [
   {
     id: 3, name: 'Creator', age: 'Advanced · Ages 13+',
     color: 'from-violet-400 to-purple-600',
-    tag: 'JavaScript & React',
-    tools: ['JavaScript ES6+', 'React.js', 'Node.js basics', 'GitHub', 'VS Code'],
-    skills: ['Full-stack web development', 'React components, state & hooks', 'API design & consumption', 'Version control & collaborative coding'],
-    projects: 'Interactive web apps, portfolios, API dashboards',
+    tag: 'JavaScript · React · No-Code · AI Content Design',
+    tools: ['JavaScript ES6+', 'React.js', 'Node.js', 'GitHub', 'Webflow', 'Bubble', 'Framer', 'Figma', 'Midjourney', 'Canva Magic', 'ChatGPT', 'ElevenLabs'],
+    skills: [
+      'Full-stack web dev with React, state & hooks',
+      'No-code pathways: build apps with Bubble, Webflow & Framer',
+      'AI content design: image, video, voice & copy with generative tools',
+      'API design, automation with Zapier & Make',
+      'Version control, GitHub & collaborative coding',
+    ],
+    projects: 'Interactive web apps, no-code SaaS MVPs, AI-generated brand kits & content studios',
     icon: Code2,
   },
   {
@@ -78,6 +86,7 @@ const faqs = [
 ];
 
 export default function LearningHubPage() {
+  const [trialOpen, setTrialOpen] = useState(false);
   return (
     <div className="overflow-hidden">
 
@@ -120,9 +129,9 @@ export default function LearningHubPage() {
 
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
                 className="flex flex-wrap gap-3.5 mb-10">
-                <Link href="/enroll" className="btn-primary text-[15px] px-7 py-3.5">
-                  Enroll Now <ArrowRight className="w-5 h-5" />
-                </Link>
+                <button onClick={() => setTrialOpen(true)} className="btn-primary text-[15px] px-7 py-3.5">
+                  Book FREE Assessment <ArrowRight className="w-5 h-5" />
+                </button>
                 <Link href="/pricing" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-white/18 text-white font-semibold hover:bg-white/10 transition-all text-[15px]">
                   View Pricing
                 </Link>
@@ -360,6 +369,168 @@ export default function LearningHubPage() {
         </div>
       </section>
 
+      {/* ── No-Code & AI Content Design Pathways ── */}
+      <section id="no-code" className="py-16 sm:py-20 md:py-28 bg-white relative overflow-hidden">
+        <div className="absolute top-1/3 right-0 w-[500px] h-[500px] rounded-full opacity-[0.05]"
+          style={{ background: 'radial-gradient(circle, #ec4899 0%, transparent 70%)' }} />
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 relative">
+          <SectionWrapper className="text-center mb-14">
+            <div className="section-tag mx-auto mb-5"
+              style={{ background: 'rgba(236,72,153,0.08)', color: '#db2777', borderColor: 'rgba(236,72,153,0.2)' }}>
+              <Wand2 className="w-3.5 h-3.5" /> No-Code & AI Creator Pathways
+            </div>
+            <h2 className="section-heading mb-5">
+              Build Without Writing Code. <span className="gradient-text">Create With AI.</span>
+            </h2>
+            <p className="section-subheading mx-auto">
+              At Level 3 Creator and beyond, learners can specialize into no-code product building and AI content design — launching apps, brands, and creative studios without a single line of code when they choose.
+            </p>
+          </SectionWrapper>
+
+          <div className="grid md:grid-cols-3 gap-5">
+            {[
+              {
+                icon: Layers, title: 'No-Code App Building',
+                desc: 'Design and ship real apps, dashboards, and marketplaces with Bubble, Webflow, Framer, Glide and Softr.',
+                tools: ['Bubble', 'Webflow', 'Framer', 'Glide', 'Softr', 'Airtable'],
+                outcome: 'Launch a no-code SaaS MVP',
+                gradient: 'from-brand-500 to-purple-600',
+              },
+              {
+                icon: Palette, title: 'AI Content Design',
+                desc: 'Create scroll-stopping visuals, videos, voiceovers and brand kits with generative AI — like a one-person studio.',
+                tools: ['Midjourney', 'Canva Magic', 'Runway', 'ElevenLabs', 'Adobe Firefly', 'Descript'],
+                outcome: 'Ship a full AI-generated brand kit',
+                gradient: 'from-pink-500 to-rose-500',
+              },
+              {
+                icon: Wand2, title: 'AI Automation & Agents',
+                desc: 'Automate real workflows and build AI agents with Zapier, Make, n8n and custom GPTs — no backend required.',
+                tools: ['Zapier', 'Make', 'n8n', 'Custom GPTs', 'Claude Projects', 'Lindy AI'],
+                outcome: 'Deploy a live AI agent that saves 10+ hours/week',
+                gradient: 'from-emerald-500 to-teal-600',
+              },
+            ].map(({ icon: Icon, title, desc, tools, outcome, gradient }, i) => (
+              <motion.div key={title}
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="premium-card group relative overflow-hidden">
+                <div className={`absolute -top-12 -right-12 w-40 h-40 rounded-full blur-3xl opacity-0 group-hover:opacity-[0.15] transition-opacity duration-700 bg-gradient-to-br ${gradient}`} />
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 bg-gradient-to-br ${gradient} shadow-md`}>
+                  <Icon className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="font-bold text-slate-900 mb-2 text-[16px]" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>{title}</h3>
+                <p className="text-slate-500 text-[13px] leading-relaxed mb-4">{desc}</p>
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {tools.map((t) => (
+                    <span key={t} className={`px-2 py-0.5 rounded-md text-[10px] font-semibold text-white bg-gradient-to-r ${gradient} opacity-80`}>{t}</span>
+                  ))}
+                </div>
+                <div className="pt-3 border-t border-slate-100 text-[12px] text-slate-500">
+                  <span className="font-bold text-slate-700">Track outcome: </span>{outcome}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Power Highlights: Competitions · Scholarships · Careers ── */}
+      <section className="py-16 sm:py-20 md:py-28 bg-slate-50 relative">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+          <SectionWrapper className="text-center mb-14">
+            <div className="section-tag mx-auto mb-5">
+              <Trophy className="w-3.5 h-3.5" /> Beyond the Classroom
+            </div>
+            <h2 className="section-heading mb-5 max-w-3xl mx-auto">
+              Competitions. <span className="gradient-text">Scholarships.</span> Careers.
+            </h2>
+            <p className="section-subheading mx-auto">
+              Our learners don&apos;t just finish a course — they compete globally, win scholarships, and launch careers before their peers even graduate.
+            </p>
+          </SectionWrapper>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                icon: Trophy, title: 'International Coding Competitions',
+                stat: '12+ wins', desc: 'Train for Codeforces, Scratch Global Olympiad, Technovation, AI4ALL, FIRST Robotics, and national hackathons. Students leave with medals, certificates and confidence.',
+                gradient: 'from-amber-400 to-orange-500',
+              },
+              {
+                icon: GraduationCap, title: 'Scholarship-Ready Portfolios',
+                stat: '$380K+ earned', desc: 'Portfolios packed with shipped projects, competition results and mentor recommendations — exactly what admissions officers and scholarship committees want to see.',
+                gradient: 'from-emerald-500 to-teal-600',
+              },
+              {
+                icon: Briefcase, title: 'Career & Internship Launchpad',
+                stat: '50+ partners', desc: 'Industry mentors from Google, Microsoft, Stripe and Meta. Portfolio reviews, mock interviews, internship pipelines and real-world launch experience before university.',
+                gradient: 'from-brand-500 to-purple-600',
+              },
+            ].map(({ icon: Icon, title, stat, desc, gradient }, i) => (
+              <motion.div key={title}
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="premium-card relative overflow-hidden">
+                <div className={`absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r ${gradient}`} />
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 bg-gradient-to-br ${gradient} shadow-md`}>
+                  <Icon className="w-6 h-6 text-white" />
+                </div>
+                <div className="text-[11px] font-bold uppercase tracking-[0.12em] text-slate-400 mb-1">{stat}</div>
+                <h3 className="font-bold text-slate-900 mb-2.5 text-[16px]" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>{title}</h3>
+                <p className="text-slate-500 text-[13px] leading-relaxed">{desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Free Trial / Assessment Form ── */}
+      <section id="free-trial" className="py-16 sm:py-20 md:py-28 relative overflow-hidden noise-overlay"
+        style={{ background: 'linear-gradient(165deg, #070c1b 0%, #0d1333 50%, #0c1a2e 100%)' }}>
+        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] rounded-full opacity-[0.14]"
+          style={{ background: 'radial-gradient(circle, #6e42ff 0%, transparent 65%)' }} />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full opacity-[0.10]"
+          style={{ background: 'radial-gradient(circle, #ec4899 0%, transparent 65%)' }} />
+        <div className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-10 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+            <SectionWrapper>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-400/25 text-emerald-300 text-[13px] font-semibold mb-6">
+                <Sparkles className="w-3.5 h-3.5" /> 100% Free · No Credit Card · No Obligation
+              </div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-[1.1] tracking-[-0.03em] mb-5"
+                style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                Schedule Your <span className="gradient-text-animated">FREE</span> Assessment Class
+              </h2>
+              <p className="text-white/55 text-[1.05rem] leading-[1.75] mb-7 max-w-[520px]">
+                A private, no-obligation session with a certified mentor. We&apos;ll evaluate your child&apos;s skills, map the perfect Coders Ladder level, and answer every question.
+              </p>
+              <div className="space-y-3 mb-8">
+                {[
+                  'Personalized skill assessment & pathway',
+                  'Preview coding, no-code & AI tracks live',
+                  'Competition & scholarship roadmap',
+                  'Meet a world-class mentor — on us',
+                ].map((t) => (
+                  <div key={t} className="flex items-center gap-3 text-white/70 text-[14px]">
+                    <div className="w-5 h-5 rounded-full bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center flex-shrink-0">
+                      <CheckCircle2 className="w-3 h-3 text-emerald-400" strokeWidth={3} />
+                    </div>
+                    {t}
+                  </div>
+                ))}
+              </div>
+            </SectionWrapper>
+            <SectionWrapper delay={0.15}>
+              <FreeTrialForm />
+            </SectionWrapper>
+          </div>
+        </div>
+      </section>
+
       {/* ── Delivery Formats ── */}
       <section className="py-16 sm:py-20 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
@@ -531,9 +702,9 @@ export default function LearningHubPage() {
               Free assessment. Clear pathway. Real mentors. Real outcomes. Join learners from 20+ countries.
             </p>
             <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center items-center sm:items-start">
-              <Link href="/enroll" className="btn-primary text-[15px] px-8 py-4">
-                Enroll Now <ArrowRight className="w-5 h-5" />
-              </Link>
+              <button onClick={() => setTrialOpen(true)} className="btn-primary text-[15px] px-8 py-4">
+                Book FREE Assessment <ArrowRight className="w-5 h-5" />
+              </button>
               <Link href="/pricing" className="btn-white text-[15px] px-8 py-4">
                 View Pricing
               </Link>
@@ -541,6 +712,8 @@ export default function LearningHubPage() {
           </SectionWrapper>
         </div>
       </section>
+
+      <FreeTrialModal open={trialOpen} onClose={() => setTrialOpen(false)} />
     </div>
   );
 }

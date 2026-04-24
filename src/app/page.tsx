@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
@@ -8,10 +8,11 @@ import {
   ArrowRight, BookOpen, Mic2, Gamepad2, Star, Users, Award,
   TrendingUp, CheckCircle2, Play, ChevronRight, Sparkles,
   Code2, Globe, Trophy, Lightbulb, Brain, Zap,
-  Layers, Target, BarChart3, Rocket, Heart
+  Layers, Target, BarChart3, Rocket, Heart, GraduationCap, Briefcase
 } from 'lucide-react';
 import AnimatedCounter from '@/components/ui/AnimatedCounter';
 import SectionWrapper from '@/components/ui/SectionWrapper';
+import FreeTrialForm, { FreeTrialModal } from '@/components/FreeTrialForm';
 
 /* ─────────────────── Sub-components ─────────────────── */
 
@@ -116,6 +117,7 @@ function TestimonialCard({ quote, name, role, flag, delay }: { quote: string; na
 
 /* ═══════════════════ PAGE ═══════════════════ */
 export default function HomePage() {
+  const [trialOpen, setTrialOpen] = useState(false);
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
   const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
@@ -216,17 +218,17 @@ export default function HomePage() {
 
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.35 }}
                   className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
-                  <Link href="/learning-hub"
+                  <button onClick={() => setTrialOpen(true)}
                     className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl font-bold text-white text-[15px] gradient-bg shadow-[0_8px_32px_rgba(110,66,255,0.4)] hover:shadow-[0_16px_48px_rgba(110,66,255,0.55)] hover:-translate-y-1 transition-all duration-300"
                     style={{ boxShadow: '0 8px 32px rgba(110,66,255,0.4), inset 0 1px 0 rgba(255,255,255,0.15)' }}>
-                    Learn Coding <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
-                  </Link>
-                  <Link href="/spotlight-media"
+                    Book FREE Assessment Class <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
+                  </button>
+                  <Link href="/learning-hub"
                     className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl border border-white/12 text-white/80 font-semibold text-[15px] hover:bg-white/[0.06] hover:border-white/20 transition-all duration-300 backdrop-blur-sm">
                     <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center border border-white/10">
                       <Play className="w-3.5 h-3.5 fill-white text-white ml-0.5" />
                     </div>
-                    Watch Stories
+                    Explore Programs
                   </Link>
                 </motion.div>
 
@@ -878,6 +880,161 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ═══ POWER HIGHLIGHTS ═══ */}
+      <section className="py-16 sm:py-20 md:py-28 bg-white relative overflow-hidden">
+        <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full opacity-[0.04]"
+          style={{ background: 'radial-gradient(circle, #6e42ff 0%, transparent 70%)' }} />
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 relative">
+          <SectionWrapper className="text-center mb-14">
+            <div className="section-tag mx-auto mb-5">
+              <Trophy className="w-3.5 h-3.5" /> Why Families Choose Us
+            </div>
+            <h2 className="section-heading mb-5 max-w-3xl mx-auto">
+              Beyond Coding — A <span className="gradient-text-animated">Launchpad</span> for Scholarships & Careers
+            </h2>
+            <p className="section-subheading mx-auto">
+              Competitions. Scholarship-ready portfolios. Career acceleration. ScholarlyEcho equips young people to win — on the world stage and in the workplace.
+            </p>
+          </SectionWrapper>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
+            {[
+              {
+                icon: Trophy, title: 'International Coding Competitions',
+                desc: 'Train for global contests — Codeforces, Scratch Global Olympiad, Technovation, Hackathons, FIRST Robotics.',
+                stat: '12+', statLabel: 'Competitions won',
+                gradient: 'from-amber-400 to-orange-500', bg: 'bg-amber-50', color: 'text-amber-600',
+              },
+              {
+                icon: GraduationCap, title: 'Scholarship-Ready Portfolio',
+                desc: 'Real projects, verified skills, and track records that admissions committees love — from local grants to Ivy League STEM awards.',
+                stat: '$380K+', statLabel: 'Scholarships earned',
+                gradient: 'from-emerald-400 to-teal-600', bg: 'bg-emerald-50', color: 'text-emerald-600',
+              },
+              {
+                icon: Briefcase, title: 'Career Acceleration',
+                desc: 'Industry mentors, portfolio reviews, internship pipelines and AI-era skills that put learners years ahead of peers.',
+                stat: '50+', statLabel: 'Partner companies',
+                gradient: 'from-brand-500 to-purple-600', bg: 'bg-purple-50', color: 'text-brand-600',
+              },
+              {
+                icon: Brain, title: 'Elite Training & Bootcamps',
+                desc: 'Weekly group classes, 1-on-1 coaching, and holiday bootcamps led by engineers from Google, Microsoft, Stripe & Meta.',
+                stat: '50+', statLabel: 'Vetted mentors',
+                gradient: 'from-pink-500 to-rose-500', bg: 'bg-rose-50', color: 'text-rose-600',
+              },
+            ].map(({ icon: Icon, title, desc, stat, statLabel, gradient, color }, i) => (
+              <motion.div key={title}
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                className="premium-card group relative overflow-hidden">
+                <div className={`absolute -top-12 -right-12 w-32 h-32 rounded-full blur-3xl opacity-0 group-hover:opacity-[0.12] transition-opacity duration-700 bg-gradient-to-br ${gradient}`} />
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 bg-gradient-to-br ${gradient} shadow-md group-hover:scale-105 transition-transform duration-500`}>
+                  <Icon className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="font-bold text-slate-900 mb-2 text-[15px]" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>{title}</h3>
+                <p className="text-slate-500 text-[13px] leading-relaxed mb-4">{desc}</p>
+                <div className={`pt-3 border-t border-slate-100 flex items-baseline gap-2 ${color}`}>
+                  <span className="text-2xl font-extrabold" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>{stat}</span>
+                  <span className="text-[11px] font-semibold text-slate-400">{statLabel}</span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Competition & career ribbon */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="rounded-3xl p-7 sm:p-10 relative overflow-hidden"
+            style={{ background: 'linear-gradient(135deg, #4a1de0 0%, #7c3aed 50%, #ec4899 100%)' }}>
+            <div className="absolute inset-0 opacity-30"
+              style={{ backgroundImage: 'radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.25) 0%, transparent 60%)' }} />
+            <div className="relative z-10 grid md:grid-cols-3 gap-6 items-center">
+              <div className="md:col-span-2">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-white text-[11px] font-bold mb-3">
+                  ⚡ THE SCHOLARLYECHO EDGE
+                </div>
+                <h3 className="text-white text-2xl sm:text-3xl font-extrabold mb-3 leading-tight" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                  Coding competitions. Scholarships. Careers. All from one clear pathway.
+                </h3>
+                <p className="text-white/80 text-[14px] leading-relaxed max-w-2xl">
+                  Our learners compete globally, build scholarship-winning portfolios, and walk into interviews with real shipped products. Reserve a FREE assessment class and see exactly where your child can go.
+                </p>
+              </div>
+              <div className="flex md:justify-end">
+                <button onClick={() => setTrialOpen(true)}
+                  className="inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl font-bold text-brand-700 bg-white hover:bg-slate-50 transition-all duration-300 shadow-xl hover:-translate-y-0.5 text-[15px]">
+                  Book FREE Class <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══ FREE TRIAL FORM ═══ */}
+      <section id="free-trial" className="py-16 sm:py-20 md:py-28 relative overflow-hidden noise-overlay"
+        style={{ background: 'linear-gradient(165deg, #070c1b 0%, #0d1333 50%, #0c1a2e 100%)' }}>
+        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] rounded-full opacity-[0.14]"
+          style={{ background: 'radial-gradient(circle, #6e42ff 0%, transparent 65%)' }} />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full opacity-[0.10]"
+          style={{ background: 'radial-gradient(circle, #ec4899 0%, transparent 65%)' }} />
+        <div className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-10 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+            <SectionWrapper>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-400/25 text-emerald-300 text-[13px] font-semibold mb-6">
+                <Sparkles className="w-3.5 h-3.5" /> 100% Free · No Credit Card · No Obligation
+              </div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-[1.1] tracking-[-0.03em] mb-5"
+                style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                Try Your First Class — <span className="gradient-text-animated">Free</span>
+              </h2>
+              <p className="text-white/55 text-[1.05rem] leading-[1.75] mb-7 max-w-[520px]">
+                Schedule a free, no-obligation assessment class with a certified mentor. We&apos;ll evaluate your child&apos;s skills, recommend the perfect pathway, and answer every question — all before you commit to anything.
+              </p>
+
+              <div className="space-y-3 mb-8">
+                {[
+                  'Personalized skill assessment & learning plan',
+                  '1-on-1 session with a world-class mentor',
+                  'Preview the Coders Ladder and AI tracks live',
+                  'Guidance on competitions & scholarship prep',
+                ].map((t) => (
+                  <div key={t} className="flex items-center gap-3 text-white/70 text-[14px]">
+                    <div className="w-5 h-5 rounded-full bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center flex-shrink-0">
+                      <CheckCircle2 className="w-3 h-3 text-emerald-400" strokeWidth={3} />
+                    </div>
+                    {t}
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-5">
+                <div className="flex -space-x-2.5">
+                  {[['AM', '#6e42ff'], ['TK', '#f59e0b'], ['FO', '#10b981'], ['AJ', '#ec4899']].map(([init, bg], i) => (
+                    <div key={i} className="w-8 h-8 rounded-full border-2 border-[#0d1333] flex items-center justify-center text-[10px] font-bold text-white"
+                      style={{ background: bg as string }}>
+                      {init}
+                    </div>
+                  ))}
+                </div>
+                <div className="text-white/50 text-[13px]">
+                  <span className="text-white font-bold">200+</span> families booked this month
+                </div>
+              </div>
+            </SectionWrapper>
+
+            <SectionWrapper delay={0.15}>
+              <FreeTrialForm />
+            </SectionWrapper>
+          </div>
+        </div>
+      </section>
+
       {/* ═══ FINAL CTA ═══ */}
       <section className="py-20 sm:py-24 md:py-32 relative overflow-hidden noise-overlay"
         style={{ background: 'linear-gradient(165deg, #070c1b 0%, #10082e 40%, #0d1333 60%, #070c1b 100%)' }}>
@@ -907,11 +1064,11 @@ export default function HomePage() {
               Join 1,200+ young people already building skills, making impact, and writing their own story — with ScholarlyEcho.
             </p>
             <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center items-center">
-              <Link href="/learning-hub"
+              <button onClick={() => setTrialOpen(true)}
                 className="group inline-flex items-center justify-center gap-2.5 w-full sm:w-auto px-9 py-4 rounded-2xl font-bold text-white text-[15px] sm:text-[16px] gradient-bg hover:-translate-y-1 transition-all duration-300"
                 style={{ boxShadow: '0 8px 40px rgba(110,66,255,0.45), inset 0 1px 0 rgba(255,255,255,0.15)' }}>
-                Start Your Journey <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
-              </Link>
+                Book FREE Assessment <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
+              </button>
               <Link href="/contact"
                 className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-9 py-4 rounded-2xl font-semibold text-white/80 text-[15px] sm:text-[16px] bg-white/[0.06] border border-white/10 hover:bg-white/[0.1] hover:border-white/15 transition-all duration-300">
                 Talk to the Team
@@ -920,6 +1077,8 @@ export default function HomePage() {
           </SectionWrapper>
         </div>
       </section>
+
+      <FreeTrialModal open={trialOpen} onClose={() => setTrialOpen(false)} />
     </div>
   );
 }
