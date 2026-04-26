@@ -11,6 +11,7 @@ import NewsletterForm from '@/components/NewsletterForm';
 
 const footerLinks = {
   Learn: [
+    { label: 'Free Assessment Class', href: '/assessment-class' },
     { label: 'Learning Hub', href: '/learning-hub' },
     { label: 'AI & Product Tracks', href: '/learning-hub#ai-tracks' },
     { label: 'Code Prodigy', href: '/learning-hub/code-prodigy' },
