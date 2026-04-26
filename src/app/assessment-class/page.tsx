@@ -26,10 +26,10 @@ const what = [
 ];
 
 const audience = [
-  { icon: GraduationCap, title: 'Curious beginners', age: 'Ages 5–10', desc: 'No experience needed. We start with visual coding (Scratch, Blockly) and storytelling.', gradient: 'from-teal-400 to-emerald-500' },
-  { icon: Brain, title: 'Aspiring builders', age: 'Ages 11–14', desc: 'Ready for Python, web dev, mobile apps, and the no-code creator pathway.', gradient: 'from-brand-400 to-blue-500' },
+  { icon: GraduationCap, title: 'Curious beginners', age: 'Ages 5+', desc: 'No experience needed. We start with visual coding (Scratch, Blockly) and storytelling.', gradient: 'from-teal-400 to-emerald-500' },
+  { icon: Brain, title: 'Aspiring builders', age: 'Ages 11+', desc: 'Ready for Python, web dev, mobile apps, and the no-code creator pathway.', gradient: 'from-brand-400 to-blue-500' },
   { icon: Trophy, title: 'Ambitious teens', age: 'Ages 15+', desc: 'AI Developer, Product Builder, competition prep and scholarship-ready portfolios.', gradient: 'from-violet-500 to-purple-600' },
-  { icon: Briefcase, title: 'Career-focused families', age: 'All ages', desc: 'Looking for serious outcomes — internships, portfolio reviews, and career mentorship.', gradient: 'from-pink-500 to-rose-500' },
+  { icon: Briefcase, title: 'Career-focused families', age: 'Ages 16+', desc: 'Looking for serious outcomes — internships, portfolio reviews, and career mentorship.', gradient: 'from-pink-500 to-rose-500' },
 ];
 
 const faqs = [
