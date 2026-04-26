@@ -1013,19 +1013,6 @@ export default function HomePage() {
                 ))}
               </div>
 
-              <div className="flex items-center gap-5">
-                <div className="flex -space-x-2.5">
-                  {[['AM', '#6e42ff'], ['TK', '#f59e0b'], ['FO', '#10b981'], ['AJ', '#ec4899']].map(([init, bg], i) => (
-                    <div key={i} className="w-8 h-8 rounded-full border-2 border-[#0d1333] flex items-center justify-center text-[10px] font-bold text-white"
-                      style={{ background: bg as string }}>
-                      {init}
-                    </div>
-                  ))}
-                </div>
-                <div className="text-white/50 text-[13px]">
-                  <span className="text-white font-bold">200+</span> families booked this month
-                </div>
-              </div>
             </SectionWrapper>
 
             <SectionWrapper delay={0.15}>

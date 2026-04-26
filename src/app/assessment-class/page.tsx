@@ -166,10 +166,6 @@ export default function AssessmentClassPage() {
                       </div>
                     ))}
                   </div>
-                  <div className="text-white/50 text-[13px]">
-                    <span className="text-white font-bold">200+</span> families this month
-                  </div>
-                  <div className="h-4 w-px bg-white/10" />
                   <div className="flex items-center gap-1">
                     {[...Array(5)].map((_, i) => <Star key={i} className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />)}
                     <span className="text-white/50 text-[13px] ml-1.5">4.9/5</span>
