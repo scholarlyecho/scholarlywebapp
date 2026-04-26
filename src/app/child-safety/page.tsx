@@ -60,7 +60,7 @@ const sections = [
     title: 'Reporting & Response',
     color: 'bg-orange-50 text-orange-600',
     content: [
-      { heading: 'How to Report a Concern', text: 'If you witness or suspect any safeguarding concern — whether involving a tutor, another learner, or platform content — report it immediately via the in-platform "Report" button or by emailing safeguarding@scholarlyecho.com.' },
+      { heading: 'How to Report a Concern', text: 'If you witness or suspect any safeguarding concern — whether involving a tutor, another learner, or platform content — report it immediately via the in-platform "Report" button or by emailing scholarlyechos@gmail.com.' },
       { heading: 'Our Response Process', text: 'All safeguarding reports are reviewed by our Designated Safeguarding Lead (DSL) within 4 hours during business hours. Where there is risk to a child, we escalate to relevant authorities in the child\'s jurisdiction immediately.' },
       { heading: 'Mandatory Reporting', text: 'We are a mandatory reporter. Where we identify credible risk of harm to a child — whether on or off platform — we will notify the appropriate child protection authorities without delay, even if this means disclosing data.' },
     ],
@@ -112,7 +112,7 @@ export default function ChildSafetyPage() {
               <Phone className="w-5 h-5 text-orange-600 flex-shrink-0" />
               <div>
                 <p className="font-bold text-orange-900 text-[13px]">Immediate Safeguarding Concern?</p>
-                <p className="text-orange-700 text-[12px] mt-0.5">Email <a href="mailto:safeguarding@scholarlyecho.com" className="font-semibold underline">safeguarding@scholarlyecho.com</a> — reviewed within 4 hours. For emergencies, contact your local child protection services immediately.</p>
+                <p className="text-orange-700 text-[12px] mt-0.5">Email <a href="mailto:scholarlyechos@gmail.com" className="font-semibold underline">scholarlyechos@gmail.com</a> — reviewed within 4 hours. For emergencies, contact your local child protection services immediately.</p>
               </div>
             </div>
           </motion.div>
@@ -158,8 +158,8 @@ export default function ChildSafetyPage() {
                 <h3 className="font-bold text-slate-900 mb-2">Contact Our Safeguarding Team</h3>
                 <p className="text-slate-500 text-[13px] leading-relaxed mb-4">
                   For child safety reports, concerns, or parental queries, contact our Designated Safeguarding Lead at{' '}
-                  <a href="mailto:safeguarding@scholarlyecho.com" className="text-brand-600 font-semibold hover:underline">
-                    safeguarding@scholarlyecho.com
+                  <a href="mailto:scholarlyechos@gmail.com" className="text-brand-600 font-semibold hover:underline">
+                    scholarlyechos@gmail.com
                   </a>
                   . For general enquiries: ScholarlyEcho Inc., Maryland, United States.
                 </p>
