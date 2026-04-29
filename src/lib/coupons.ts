@@ -28,60 +28,85 @@ export function findPlan(label: string) {
   return PLAN_CATALOG.find((p) => p.label === label) || null;
 }
 
-// Sibling discounts — compounding rule mirrors siblingOptions hints.
-// Returns the % discount applied off the base plan tuition due to sibling status.
-export function siblingDiscountPercent(label: string): number {
-  if (!label) return 0;
-  if (label.startsWith('Just me')) return 0;
-  if (label.startsWith('1 sibling')) return 10;
-  if (label.startsWith('2 siblings')) return 25; // 10 + 15
-  return 0; // 3+ contact us — no auto discount
-}
+// Per-student sibling discount: applicant full price, 2nd child -10%, 3rd child -15%.
+export const SIBLING_DISCOUNT_PCT = [0, 10, 15, 15];
 
-export type FeeBreakdown = {
+export type StudentLine = {
+  index: number; // 0 = primary applicant
+  label: string; // "Primary applicant" or "Sibling 1", etc.
+  planLabel: string | null;
+  planId: string | null;
   basePrice: number;
   per: 'mo' | 'one' | null;
-  siblingPercent: number;
-  siblingAmount: number;
-  couponLabel: string | null;
-  couponAmount: number;
-  subtotal: number; // base
-  total: number;    // after all discounts
-  planLabel: string | null;
+  discountPct: number;
+  discountAmount: number;
+  subtotal: number; // after sibling discount, before coupon
 };
 
-export function computeFee(planLabel: string, siblingsLabel: string, coupon: Coupon | null): FeeBreakdown {
-  const plan = findPlan(planLabel);
-  const base = plan?.price || 0;
-  const sibPct = siblingDiscountPercent(siblingsLabel);
-  const sibAmt = Math.round((base * sibPct) / 100);
-  const afterSiblings = Math.max(0, base - sibAmt);
+export type FeeBreakdown = {
+  students: StudentLine[];
+  householdSubtotal: number; // sum of student subtotals
+  couponLabel: string | null;
+  couponAmount: number;
+  total: number;
+  per: 'mo' | 'one' | null;
+};
+
+export function computeFee(
+  primaryPlanLabel: string,
+  siblingPlans: string[], // labels for each sibling, in order
+  coupon: Coupon | null
+): FeeBreakdown {
+  const planLabels = [primaryPlanLabel, ...siblingPlans];
+  const students: StudentLine[] = planLabels.map((label, i) => {
+    const plan = findPlan(label);
+    const base = plan?.price || 0;
+    const pct = SIBLING_DISCOUNT_PCT[Math.min(i, SIBLING_DISCOUNT_PCT.length - 1)];
+    const disc = Math.round((base * pct) / 100);
+    return {
+      index: i,
+      label: i === 0 ? 'Primary applicant' : `Sibling ${i}`,
+      planLabel: plan?.label || null,
+      planId: plan?.id || null,
+      basePrice: base,
+      per: plan?.per || null,
+      discountPct: pct,
+      discountAmount: disc,
+      subtotal: Math.max(0, base - disc),
+    };
+  });
+
+  const householdSubtotal = students.reduce((s, x) => s + x.subtotal, 0);
+  // Cadence: if any student has 'mo' use mo (all our plans are mo today).
+  const per = students.find((s) => s.per)?.per || null;
 
   let couponAmt = 0;
   let couponLabel: string | null = null;
-  if (coupon && plan) {
-    const planMatch = coupon.appliesTo.includes('all') || coupon.appliesTo.includes(plan.id);
-    if (planMatch) {
+  if (coupon && householdSubtotal > 0) {
+    // Coupon applies to all students whose plan matches appliesTo (or 'all').
+    const eligibleSubtotal = students.reduce((s, x) => {
+      if (!x.planId) return s;
+      const match = coupon.appliesTo.includes('all') || coupon.appliesTo.includes(x.planId);
+      return s + (match ? x.subtotal : 0);
+    }, 0);
+    if (eligibleSubtotal > 0) {
       if (coupon.discountType === 'percent') {
-        couponAmt = Math.round((afterSiblings * coupon.discountValue) / 100);
+        couponAmt = Math.round((eligibleSubtotal * coupon.discountValue) / 100);
         couponLabel = `${coupon.code} (-${coupon.discountValue}%)`;
       } else {
-        couponAmt = Math.min(afterSiblings, coupon.discountValue);
+        couponAmt = Math.min(eligibleSubtotal, coupon.discountValue);
         couponLabel = `${coupon.code} (-$${coupon.discountValue})`;
       }
     }
   }
 
   return {
-    basePrice: base,
-    per: plan?.per || null,
-    siblingPercent: sibPct,
-    siblingAmount: sibAmt,
+    students,
+    householdSubtotal,
     couponLabel,
     couponAmount: couponAmt,
-    subtotal: base,
-    total: Math.max(0, afterSiblings - couponAmt),
-    planLabel: plan?.label || null,
+    total: Math.max(0, householdSubtotal - couponAmt),
+    per,
   };
 }
 

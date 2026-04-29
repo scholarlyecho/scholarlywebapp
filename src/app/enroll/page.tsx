@@ -11,7 +11,7 @@ import {
 import { submitForm } from '@/lib/formSubmit';
 import { useToast } from '@/components/Toast';
 import { COUNTRIES, US_STATES, US_COUNTRY, OTHER_OPTION } from '@/lib/locations';
-import { computeFee, lookupCoupon, incrementCouponUse, type Coupon } from '@/lib/coupons';
+import { computeFee, lookupCoupon, incrementCouponUse, SIBLING_DISCOUNT_PCT, type Coupon } from '@/lib/coupons';
 
 const programs = [
   {
@@ -98,10 +98,18 @@ export default function EnrollPage() {
   const [coupon, setCoupon] = useState<Coupon | null>(null);
   const [couponState, setCouponState] = useState<'idle' | 'checking' | 'error'>('idle');
   const [couponError, setCouponError] = useState('');
-  const [submittedFee, setSubmittedFee] = useState<{ total: number; per: string | null; plan: string | null; coupon: string | null } | null>(null);
+  const [submittedFee, setSubmittedFee] = useState<{ total: number; per: string | null; coupon: string | null } | null>(null);
   const { showToast } = useToast();
 
-  const fee = computeFee(formData.plan || '', formData.siblings || '', coupon);
+  const sibCount = (() => {
+    const v = formData.siblings || '';
+    if (v.startsWith('1 sibling')) return 1;
+    if (v.startsWith('2 siblings')) return 2;
+    if (v.startsWith('3+')) return 3;
+    return 0;
+  })();
+  const siblingPlans = Array.from({ length: sibCount }, (_, i) => formData[`sibling${i + 1}_plan`] || '');
+  const fee = computeFee(formData.plan || '', siblingPlans, coupon);
 
   // If plan/program changes after coupon applied, re-validate.
   const clearCoupon = () => { setCoupon(null); setCouponInput(''); setCouponError(''); setCouponState('idle'); };
@@ -128,22 +136,29 @@ export default function EnrollPage() {
     const { countrySelect, stateSelect, countryOther, stateOther, ...clean } = formData;
     void countrySelect; void stateSelect; void countryOther; void stateOther;
     // Drop sibling sub-form fields beyond the count actually selected.
-    const sibV = clean.siblings || '';
-    let sibCount = 0;
-    if (sibV.startsWith('1 sibling')) sibCount = 1;
-    else if (sibV.startsWith('2 siblings')) sibCount = 2;
-    else if (sibV.startsWith('3+')) sibCount = 3;
     Object.keys(clean).forEach((k) => {
       const m = k.match(/^sibling(\d+)_/);
       if (m && parseInt(m[1], 10) > sibCount) delete clean[k];
     });
     const data: Record<string, string> = { program: active, ...clean };
     if (data.dob) { data.age = String(calculateAge(data.dob)); }
+    // Compute sibling ages from DOBs.
+    for (let i = 1; i <= sibCount; i++) {
+      const dob = data[`sibling${i}_dob`];
+      if (dob) data[`sibling${i}_age`] = String(calculateAge(dob));
+    }
     if (sibCount > 0) data.siblingCount = String(sibCount);
-    if (fee.basePrice > 0) {
-      data.basePrice = String(fee.basePrice);
-      data.siblingDiscountPct = String(fee.siblingPercent);
-      data.siblingDiscountAmount = String(fee.siblingAmount);
+    if (fee.householdSubtotal > 0) {
+      // Per-student lines.
+      fee.students.forEach((s, i) => {
+        const prefix = i === 0 ? 'student0' : `student${i}`;
+        data[`${prefix}_planLabel`] = s.planLabel || '';
+        data[`${prefix}_basePrice`] = String(s.basePrice);
+        data[`${prefix}_discountPct`] = String(s.discountPct);
+        data[`${prefix}_discountAmount`] = String(s.discountAmount);
+        data[`${prefix}_subtotal`] = String(s.subtotal);
+      });
+      data.householdSubtotal = String(fee.householdSubtotal);
       data.couponCode = coupon?.code || '';
       data.couponDiscountAmount = String(fee.couponAmount);
       data.totalFee = String(fee.total);
@@ -153,7 +168,7 @@ export default function EnrollPage() {
     const result = await submitForm('enrollment', data);
     if (result.success) {
       if (coupon) await incrementCouponUse(coupon.id);
-      setSubmittedFee(fee.basePrice > 0 ? { total: fee.total, per: fee.per, plan: fee.planLabel, coupon: fee.couponLabel } : null);
+      setSubmittedFee(fee.householdSubtotal > 0 ? { total: fee.total, per: fee.per, coupon: fee.couponLabel } : null);
       setStatus('success');
       showToast('success', 'Application submitted! We\'ll be in touch within 48 hours.');
     } else {
@@ -228,7 +243,7 @@ export default function EnrollPage() {
                     <div className="flex items-center gap-2 text-emerald-700 text-[12px] font-bold uppercase tracking-[0.1em] mb-2">
                       <ShieldCheck className="w-4 h-4" /> Tuition Confirmed
                     </div>
-                    <div className="text-slate-500 text-sm">{submittedFee.plan}</div>
+                    <div className="text-slate-500 text-sm">Total household tuition</div>
                     <div className="text-3xl font-extrabold text-slate-900 mt-1" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
                       ${submittedFee.total}{submittedFee.per === 'mo' && <span className="text-base text-slate-400 font-bold">/mo</span>}
                     </div>
@@ -440,8 +455,10 @@ export default function EnrollPage() {
                                     {Array.from({ length: count }).map((_, idx) => {
                                       const n = idx + 1;
                                       const nameKey = `sibling${n}_name`;
-                                      const ageKey = `sibling${n}_age`;
+                                      const dobKey = `sibling${n}_dob`;
                                       const levelKey = `sibling${n}_level`;
+                                      const planKey = `sibling${n}_plan`;
+                                      const discPct = SIBLING_DISCOUNT_PCT[Math.min(n, SIBLING_DISCOUNT_PCT.length - 1)];
                                       return (
                                         <motion.div key={n}
                                           initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
@@ -449,7 +466,7 @@ export default function EnrollPage() {
                                           className="rounded-xl border-2 border-slate-100 bg-slate-50/50 p-4">
                                           <div className="flex items-center justify-between mb-3">
                                             <span className="text-[12px] font-extrabold text-slate-700">Sibling {n}</span>
-                                            <span className="text-[10px] font-bold text-brand-500 bg-brand-50 px-2 py-0.5 rounded-full">Student #{n + 1}</span>
+                                            <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">{discPct}% off</span>
                                           </div>
                                           <div className="space-y-2.5">
                                             <div className="relative">
@@ -461,11 +478,10 @@ export default function EnrollPage() {
                                             </div>
                                             <div className="grid grid-cols-2 gap-2.5">
                                               <div className="relative">
-                                                <GraduationCap className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-300" />
-                                                <input type="number" min="3" max="25" required value={formData[ageKey] || ''}
-                                                  onChange={(e) => setFormData({ ...formData, [ageKey]: e.target.value })}
-                                                  placeholder="Age"
-                                                  className="w-full pl-9 pr-3 py-2.5 rounded-lg border-2 border-slate-200 bg-white focus:outline-none focus:border-brand-400 text-slate-800 placeholder:text-slate-300 text-[13px]" />
+                                                <GraduationCap className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-300 pointer-events-none" />
+                                                <input type="date" required value={formData[dobKey] || ''}
+                                                  onChange={(e) => setFormData({ ...formData, [dobKey]: e.target.value })}
+                                                  className="w-full pl-9 pr-3 py-2.5 rounded-lg border-2 border-slate-200 bg-white focus:outline-none focus:border-brand-400 text-slate-800 text-[13px]" />
                                               </div>
                                               <select value={formData[levelKey] || ''} required
                                                 onChange={(e) => setFormData({ ...formData, [levelKey]: e.target.value })}
@@ -474,6 +490,12 @@ export default function EnrollPage() {
                                                 {levelOptions.map((opt) => (<option key={opt} value={opt}>{opt}</option>))}
                                               </select>
                                             </div>
+                                            <select value={formData[planKey] || ''} required
+                                              onChange={(e) => setFormData({ ...formData, [planKey]: e.target.value })}
+                                              className="w-full px-3 py-2.5 rounded-lg border-2 border-slate-200 bg-white focus:outline-none focus:border-brand-400 text-slate-700 text-[13px]">
+                                              <option value="">Pricing plan...</option>
+                                              {planOptions.map((opt) => (<option key={opt} value={opt}>{opt}</option>))}
+                                            </select>
                                           </div>
                                         </motion.div>
                                       );
@@ -491,7 +513,7 @@ export default function EnrollPage() {
                         {/* ── Fee Summary + Coupon (Learning Hub only) ── */}
                         {program.fields.includes('plan') && (
                           <AnimatePresence>
-                            {fee.basePrice > 0 && (
+                            {fee.householdSubtotal > 0 && (
                               <motion.div
                                 key="fee-panel"
                                 initial={{ opacity: 0, y: 16, scale: 0.97 }}
@@ -531,17 +553,44 @@ export default function EnrollPage() {
                                     </motion.div>
                                   </div>
 
-                                  <div className="space-y-1.5 text-[13px] relative z-10">
-                                    <div className="flex justify-between text-slate-600">
-                                      <span>Base tuition</span>
-                                      <span className="font-semibold text-slate-700">${fee.basePrice}{fee.per === 'mo' && '/mo'}</span>
-                                    </div>
-                                    {fee.siblingAmount > 0 && (
-                                      <motion.div initial={{ opacity: 0, x: -6 }} animate={{ opacity: 1, x: 0 }}
-                                        className="flex justify-between text-emerald-600">
-                                        <span className="flex items-center gap-1.5"><Percent className="w-3 h-3" /> Sibling discount ({fee.siblingPercent}%)</span>
-                                        <span className="font-semibold">−${fee.siblingAmount}</span>
+                                  <div className="space-y-2.5 text-[13px] relative z-10">
+                                    {fee.students.map((s) => (
+                                      <motion.div key={s.index}
+                                        layout
+                                        initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+                                        className="rounded-lg bg-slate-50/70 px-3 py-2.5 border border-slate-100">
+                                        <div className="flex items-center justify-between mb-1">
+                                          <div className="flex items-center gap-2 min-w-0">
+                                            <span className={`inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-extrabold flex-shrink-0 ${s.index === 0 ? 'bg-brand-500 text-white' : 'bg-emerald-500 text-white'}`}>
+                                              {s.index + 1}
+                                            </span>
+                                            <span className="font-bold text-slate-700 text-[12px] truncate">{s.label}</span>
+                                          </div>
+                                          {s.basePrice > 0 ? (
+                                            <span className="font-extrabold text-slate-900 text-[13px]">
+                                              ${s.subtotal}{s.per === 'mo' && <span className="text-slate-400 font-bold text-[11px]">/mo</span>}
+                                            </span>
+                                          ) : (
+                                            <span className="text-[10px] font-bold text-amber-500 uppercase tracking-wider">Pick plan</span>
+                                          )}
+                                        </div>
+                                        {s.basePrice > 0 && (
+                                          <div className="flex items-center justify-between text-[11px] text-slate-400 pl-7">
+                                            <span className="truncate pr-2">{s.planLabel?.split(' — ')[0]} · ${s.basePrice}{s.per === 'mo' && '/mo'}</span>
+                                            {s.discountAmount > 0 && (
+                                              <span className="text-emerald-600 font-semibold flex items-center gap-1 flex-shrink-0">
+                                                <Percent className="w-2.5 h-2.5" /> {s.discountPct}% off · −${s.discountAmount}
+                                              </span>
+                                            )}
+                                          </div>
+                                        )}
                                       </motion.div>
+                                    ))}
+                                    {fee.students.length > 1 && (
+                                      <div className="flex justify-between text-slate-600 pt-1.5 border-t border-slate-100">
+                                        <span>Household subtotal</span>
+                                        <span className="font-semibold text-slate-700">${fee.householdSubtotal}{fee.per === 'mo' && '/mo'}</span>
+                                      </div>
                                     )}
                                     {fee.couponAmount > 0 && (
                                       <motion.div initial={{ opacity: 0, x: -6 }} animate={{ opacity: 1, x: 0 }}
